@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PkIde", "PkIde\PkIde.vcxpro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{B91ECEE5-2A28-4402-AB71-6C70A5FE38DF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Syntalizer", "Syntalizer\Syntalizer.vcxproj", "{82A4CB25-6AB5-4092-A346-940362D77005}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Syntalyzer", "Syntalyzer\Syntalizer.vcxproj", "{82A4CB25-6AB5-4092-A346-940362D77005}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

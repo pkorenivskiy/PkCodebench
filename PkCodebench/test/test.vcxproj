@@ -156,7 +156,7 @@
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Syntalizer\Syntalizer.vcxproj">
+    <ProjectReference Include="..\Syntalyzer\Syntalizer.vcxproj">
       <Project>{82a4cb25-6ab5-4092-a346-940362d77005}</Project>
     </ProjectReference>
   </ItemGroup>
