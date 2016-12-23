@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "../Syntalizer/Syntalizer.h"
 
 class CPkIdeDoc : public CDocument
 {

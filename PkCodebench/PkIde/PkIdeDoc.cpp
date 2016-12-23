@@ -32,11 +32,11 @@ END_MESSAGE_MAP()
 CPkIdeDoc::CPkIdeDoc()
 {
 	// TODO: add one-time construction code here
-
 }
 
 CPkIdeDoc::~CPkIdeDoc()
 {
+	
 }
 
 BOOL CPkIdeDoc::OnNewDocument()
@@ -60,7 +60,36 @@ void CPkIdeDoc::Serialize(CArchive& ar)
 	// CEditView contains an edit control which handles all serialization
 	if (!m_viewList.IsEmpty())
 	{
-		reinterpret_cast<CEditView*>(m_viewList.GetHead())->SerializeRaw(ar);
+		auto pView = reinterpret_cast<CEditView*>(m_viewList.GetHead()); //->SerializeRaw(ar);
+		//reinterpret_cast<CEditView*>(m_viewList.GetHead())->SerializeRaw(ar);
+
+		if (ar.IsLoading())
+		{
+			CFile* pFile = ar.GetFile();
+			pFile->Seek(0, FILE_BEGIN);
+			int nFileSizeBytes = (int)pFile->GetLength();
+			int nFileSizeChars = nFileSizeBytes / sizeof(TCHAR);
+			LPSTR lpszBuf = (LPSTR)malloc((size_t)nFileSizeBytes + 2);
+			if (lpszBuf != NULL)
+			{
+				pFile->Read(lpszBuf, (UINT)nFileSizeBytes);
+				lpszBuf[nFileSizeBytes] = '\0';
+				lpszBuf[nFileSizeBytes+1] = '\0';
+				if (!IsTextUnicode(lpszBuf, nFileSizeBytes, nullptr))
+				{					
+					CA2CT lptszText(lpszBuf + 3);
+					pView->SetWindowText(lptszText);
+				}
+				else
+				{					
+					//pView->SetWindowText((wchar_t*)lpszBuf);
+					pFile->Seek(0, FILE_BEGIN);
+					pView->SerializeRaw(ar);
+				}
+				this->UpdateAllViews(pView);
+				free(lpszBuf);
+			}
+		}
 	}
 #ifdef SHARED_HANDLERS
 
@@ -154,5 +183,11 @@ void CPkIdeDoc::Dump(CDumpContext& dc) const
 
 void CPkIdeDoc::OnBuildLexicalanalyze()
 {
-	AfxMessageBox(_T("Build"));
+	CSyntalizer syntalyzer;
+
+	const auto& errors = syntalyzer.GetErrors();
+
+	auto view = reinterpret_cast<CEditView*>(m_viewList.GetHead());
+	
+	view->SetWindowText(syntalyzer.GetErrorText().c_str());
 }
