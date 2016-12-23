@@ -2,7 +2,7 @@
 
 #include <string>
 
-enum LexemTypes
+enum LexemClasses
 {
 	Keyword,
 	Operator,
@@ -16,10 +16,10 @@ enum LexemTypes
 	Unknown = 999
 };
 
-class CPkLexema
+struct PkLexema
 {
 public:	
 	std::wstring Name;
-	LexemTypes Class;
+	LexemClasses Class;
 	size_t Id;
 };

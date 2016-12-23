@@ -4,11 +4,11 @@
 #include "stdafx.h"
 
 #include "cbtypes.h"
-#include "../Syntalizer/Syntalizer.h"
+#include "../Syntalizer/Syntalyzer.h"
 
 int main()
 {
-	CSyntalizer syntalizer;
+	CSyntalyzer syntalizer;
 	
 	{
 		char* a = new char[45];

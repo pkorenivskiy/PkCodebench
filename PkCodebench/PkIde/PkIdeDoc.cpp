@@ -183,7 +183,7 @@ void CPkIdeDoc::Dump(CDumpContext& dc) const
 
 void CPkIdeDoc::OnBuildLexicalanalyze()
 {
-	CSyntalizer syntalyzer;
+	CSyntalyzer syntalyzer;
 
 	const auto& errors = syntalyzer.GetErrors();
 

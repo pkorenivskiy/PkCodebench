@@ -13,22 +13,23 @@
 #endif // SYNTALIZER_EXPORT
 
 
-class SYNTALIZER_API CSyntalizer
+class SYNTALIZER_API CSyntalyzer
 {
 public:
-	CSyntalizer();
-	~CSyntalizer();
+	CSyntalyzer();
+	~CSyntalyzer();
 
-	CSyntalizer(const std::wstring& sText);
+	CSyntalyzer(const std::wstring& sText);
 
 protected:
 	typedef std::function<void(void)> action;	
 	typedef std::map<SynStates, action> mapActions;
 
-	typedef std::map<std::wstring, CPkLexema> mapLexems;
+	typedef std::map<std::wstring, PkLexema> mapLexems;
+	typedef mapLexems::const_iterator mapLexemsCIt;
 
 public:
-
+	const TvLnLexems Analyze();
 	const TvErrors GetErrors() const;
 	const std::wstring GetErrorText() const;
 
@@ -39,7 +40,7 @@ private:
 private:
 	std::wstring m_sText;
 	size_t m_nPos;
-
+	size_t m_nLine;
 
 private:
 	mapLexems m_mLexems;
@@ -54,10 +55,14 @@ private:
 	// SFM functions
 private:
 	void processChar();
-	void readyLexema();
+	//void readyLexema();
 	void processLexema();
+	void constLexema();
+	void invalidLexema();
+	void processNewLine();
 
 private:
 	const std::wstring LOGICALSYM;
+	const std::wstring OPERATORS;
 };
 

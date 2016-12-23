@@ -3,44 +3,44 @@
 #include <vector>
 #include "Lexema.h"
 
-static const std::vector<CPkLexema> LEXEMS =
+static const std::vector<PkLexema> LEXEMS =
 {
-	{ CPkLexema{ L"int", Keyword, 1 } },
-	{ CPkLexema{ L"label", Keyword, 2 } },
+	{ PkLexema{ L"int", Keyword, 1 } },
+	{ PkLexema{ L"label", Keyword, 2 } },
 				 
-	{ CPkLexema{ L"for", Keyword, 3 } },
-	{ CPkLexema{ L"by", Keyword, 4 } },
-	{ CPkLexema{ L"while", Keyword, 5 } },
-	{ CPkLexema{ L"end", Keyword, 6 } },
+	{ PkLexema{ L"for", Keyword, 3 } },
+	{ PkLexema{ L"by", Keyword, 4 } },
+	{ PkLexema{ L"while", Keyword, 5 } },
+	{ PkLexema{ L"end", Keyword, 6 } },
 				 
-	{ CPkLexema{ L"if", Keyword, 7 } },
-	{ CPkLexema{ L"then", Keyword, 8 } },
-	{ CPkLexema{ L"goto", Keyword, 9 } },
+	{ PkLexema{ L"if", Keyword, 7 } },
+	{ PkLexema{ L"then", Keyword, 8 } },
+	{ PkLexema{ L"goto", Keyword, 9 } },
 				 
-	{ CPkLexema{ L"read", Keyword, 10 } },
-	{ CPkLexema{ L"write", Keyword, 11 } },
+	{ PkLexema{ L"read", Keyword, 10 } },
+	{ PkLexema{ L"write", Keyword, 11 } },
 				 
-	{ CPkLexema{ L"+", Operator, 12 } },
-	{ CPkLexema{ L"-", Operator, 13 } },
-	{ CPkLexema{ L"*", Operator, 14 } },
-	{ CPkLexema{ L"/", Operator, 15 } },
-	{ CPkLexema{ L"^", Operator, 16 } },
+	{ PkLexema{ L"+", Operator, 12 } },
+	{ PkLexema{ L"-", Operator, 13 } },
+	{ PkLexema{ L"*", Operator, 14 } },
+	{ PkLexema{ L"/", Operator, 15 } },
+	{ PkLexema{ L"^", Operator, 16 } },
 				 
-	{ CPkLexema{ L"-", Operator, 17 } }, //unary minus
+	{ PkLexema{ L"-", Operator, 17 } }, //unary minus
 				 
-	{ CPkLexema{ L"(", Delimiter, 18 } },
-	{ CPkLexema{ L")", Delimiter, 19 } },
+	{ PkLexema{ L"(", Delimiter, 18 } },
+	{ PkLexema{ L")", Delimiter, 19 } },
 				 
-	{ CPkLexema{ L">", Operator, 20 } },
-	{ CPkLexema{ L"<", Operator, 21 } },
-	{ CPkLexema{ L"=", Operator, 22 } },
-	{ CPkLexema{ L"!=", Operator, 23 } },
-	{ CPkLexema{ L">=", Operator, 24 } },
-	{ CPkLexema{ L"<=", Operator, 25 } },
-	{ CPkLexema{ L"!", Operator, 26 } },
+	{ PkLexema{ L">", Operator, 20 } },
+	{ PkLexema{ L"<", Operator, 21 } },
+	{ PkLexema{ L"=", Operator, 22 } },
+	{ PkLexema{ L"!=", Operator, 23 } },
+	{ PkLexema{ L">=", Operator, 24 } },
+	{ PkLexema{ L"<=", Operator, 25 } },
+	{ PkLexema{ L"!", Operator, 26 } },
 				 
-	/*{ CPkLexema{ L"begin", Keyword, 27 } },
-	{ CPkLexema{ L"begin", Keyword, 28 } },
-	{ CPkLexema{ L"begin", Keyword, 29 } },
+	{ PkLexema{ L":", Keyword, 27 } },
+	{ PkLexema{ L",", Keyword, 28 } },
+	/*{ CPkLexema{ L"begin", Keyword, 29 } },
 	{ CPkLexema{ L"begin", Keyword, 30 } }*/
 };
