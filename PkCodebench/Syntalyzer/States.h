@@ -5,8 +5,12 @@ enum SynStates
 	ReadNexChar = 1,
 	NewLine,
 	ReadyLexema,
-	ConstLexema,
-	//OperLexema,
+	
+	TRM,
+	IDN,
+	CON,
+	OPR, // operator 
+
 	InvalidLexema,
 	Final
 };

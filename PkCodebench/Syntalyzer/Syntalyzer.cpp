@@ -55,8 +55,15 @@ const TvLnLexems CSyntalyzer::Analyze()
 
 	while (m_curState != Final)
 	{
-		m_actions[m_curState]();
+		//m_actions[m_curState]();
+		processChar();
 	}
+
+	if (m_curLexema.empty() == false)
+		processLexema();
+
+	if (m_outLexems.back().empty())
+		m_outLexems.pop_back();
 
 	return m_outLexems;
 }
@@ -75,76 +82,105 @@ void CSyntalyzer::initSfm()
 	m_actions[ReadNexChar] = std::bind(&CSyntalyzer::processChar, this);
 	m_actions[NewLine] = std::bind(&CSyntalyzer::processNewLine, this);
 	m_actions[ReadyLexema] = std::bind(&CSyntalyzer::processLexema, this);
-	m_actions[ConstLexema] = std::bind(&CSyntalyzer::constLexema, this);
+	m_actions[CON] = std::bind(&CSyntalyzer::constLexema, this);
 	m_actions[InvalidLexema] = std::bind(&CSyntalyzer::invalidLexema, this);
 }
 
-// SFM fuinctions
+// SFM functions
 void CSyntalyzer::processChar()
 {
-	if (m_nPos >= m_sText.length())
+	if (++m_nPos >= m_sText.length() && m_nPos != -1)
+	{
 		m_curState = Final;
-
-	wchar_t ch = m_sText[++m_nPos];
-
-	if (std::iswspace(ch))
-	{
-		if (ch == L'\n' || ch == L'\r')
-			m_curState = NewLine;
-		else
-			m_curState = ReadyLexema;
+		return;
 	}
-	else if (std::iswdigit(ch))
+
+	wchar_t ch = m_sText[m_nPos];
+
+	if (m_curState == ReadNexChar)
 	{
-		if (m_curLexema.empty())
-			m_curState = ConstLexema;
+		if (std::iswspace(ch))
+		{
+			if (ch == L'\n' || ch == L'\r')
+				m_curState = NewLine;
+		}
+		else if (std::iswdigit(ch))
+		{
+			m_curState = CON;		
+			m_curLexema.push_back(ch);
+		}
+		else if (std::iswalpha(ch) || ch == L'_')
+		{
+			m_curState = TRM;
+			m_curLexema.push_back(ch);
+		}
+		else if (LOGICALSYM.find(ch) != std::wstring::npos || OPERATORS.find(ch) != std::wstring::npos)
+		{
+			m_curState = OPR;
+			m_curLexema.push_back(ch);
+		}
+		else if (ch == L',')
+		{
+			m_curLexema.push_back(ch);
+			processLexema();
+		}
 		else
-			m_curState = ReadNexChar;
-		
-		m_curLexema.push_back(ch);
-	}
-	else if (std::iswalpha(ch) || ch == L'_')
-	{
-		if (m_curState == ConstLexema)
+		{
+			m_curLexema.push_back(ch);
 			m_curState = InvalidLexema;
-
-		m_curLexema.push_back(ch);
+		}
 	}
-	else if (LOGICALSYM.find(ch) != std::wstring::npos)
+	else if (m_curState == NewLine)
 	{
-		if (m_curState == ConstLexema || m_curLexema.empty() == false)
+		if (ch != L'\n' && ch != L'\r')
+			processNewLine();
+	}
+	else if (m_curState == TRM)
+	{
+		if (std::iswspace(ch) 
+			|| LOGICALSYM.find(ch) != std::string::npos 
+			|| OPERATORS.find(ch) != std::string::npos
+			|| ch == L',')
 		{
-			// hack 
-			//processLexema();
-			
-			m_curState = ReadyLexema;
-			// костыль
-			m_nPos--;
+			processLexema();
+			if (std::iswspace(ch) == false)
+				m_nPos--;
 		}
 		else
 			m_curLexema.push_back(ch);
 	}
-	else if (ch == L',')
+	else if (m_curState == IDN)
 	{
-		if (m_curLexema.empty() == false)
-			m_nPos--;
-		else
-			m_curLexema.push_back(ch);
 
-		m_curState = ReadyLexema;
 	}
-	else if (ch == L':')
+	else if (m_curState == CON)
 	{
-		if (m_curState == ConstLexema || m_curLexema.empty() == true)
+		if (std::iswspace(ch)
+			|| LOGICALSYM.find(ch) != std::string::npos
+			|| OPERATORS.find(ch) != std::string::npos)
+		{
+			processLexema();
+			m_nPos--;
+		}
+		else if (std::iswdigit(ch))
+		{
+			m_curLexema.push_back(ch);
+		}
+		else
+		{
+			m_curLexema.push_back(ch);
 			m_curState = InvalidLexema;
-
-		m_curLexema.push_back(ch);
+		}
 	}
-	else if (OPERATORS.find(ch) != std::wstring::npos)
+	else if (m_curState == OPR)
 	{
-		if (m_curLexema.empty() == false)
+		if (std::iswspace(ch))
 		{
-			m_curState = ReadyLexema;
+			processLexema();
+		}
+		else if (std::iswalpha(ch) || std::iswdigit(ch))
+		{
+			processLexema();
 			m_nPos--;
 		}
 		else
@@ -152,9 +188,17 @@ void CSyntalyzer::processChar()
 			m_curLexema.push_back(ch);
 		}
 	}
-	else
+	else if (m_curState == InvalidLexema)
 	{
-		m_curState = InvalidLexema;
+		if (std::iswspace(ch)
+			|| LOGICALSYM.find(ch) != std::string::npos
+			|| OPERATORS.find(ch) != std::string::npos)
+		{
+			processLexema();
+			m_nPos--;
+		}
+
+		m_curLexema.push_back(ch);
 	}
 }
 
@@ -170,7 +214,7 @@ void CSyntalyzer::processLexema()
 			lexema = it->second;
 		}
 
-		m_outLexems.end()->push_back(PkLexema{ m_curLexema });
+		m_outLexems.back().push_back(lexema);
 	}
 
 	m_curLexema.clear();
@@ -188,12 +232,18 @@ void CSyntalyzer::invalidLexema()
 	processLexema();
 
 	wchar_t err[512];
-	swprintf_s(err, 512, L"Line %d. Syntax error. Unknown lexema %s", m_nLine, m_curLexema.c_str());
+	swprintf_s(err, 512, L"Line %d. Syntax error. Unknown lexema \"%s\"", m_nLine, m_curLexema.c_str());
 	m_Errors.push_back(err);
 }
 
 void CSyntalyzer::processNewLine()
 {
-	if (m_outLexems.end()->empty() == false)
+	if (m_curLexema.empty() == false)
+		processLexema();
+
+	if (m_outLexems.back().empty() == false)
 		m_outLexems.push_back(std::vector<PkLexema>());
+
+	m_nPos--;
+	m_curState = ReadNexChar;
 }

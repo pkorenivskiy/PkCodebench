@@ -9,6 +9,8 @@
 #include "PkIde.h"
 #endif
 
+#include <cwctype>
+
 #include "PkIdeDoc.h"
 
 #include <propkey.h>
@@ -76,8 +78,10 @@ void CPkIdeDoc::Serialize(CArchive& ar)
 				lpszBuf[nFileSizeBytes] = '\0';
 				lpszBuf[nFileSizeBytes+1] = '\0';
 				if (!IsTextUnicode(lpszBuf, nFileSizeBytes, nullptr))
-				{					
-					CA2CT lptszText(lpszBuf + 3);
+				{
+					if (std::iswcntrl(lpszBuf[0]))
+						lpszBuf += 3;
+					CA2CT lptszText(lpszBuf);
 					pView->SetWindowText(lptszText);
 				}
 				else
@@ -89,6 +93,15 @@ void CPkIdeDoc::Serialize(CArchive& ar)
 				this->UpdateAllViews(pView);
 				free(lpszBuf);
 			}
+		}
+		else
+		{
+			CString sText;
+			pView->GetWindowTextW(sText);
+			CT2CA lpsz(sText);
+
+			CFile* pFile = ar.GetFile();
+			pFile->Write(lpsz, sText.GetLength());
 		}
 	}
 #ifdef SHARED_HANDLERS
@@ -183,11 +196,21 @@ void CPkIdeDoc::Dump(CDumpContext& dc) const
 
 void CPkIdeDoc::OnBuildLexicalanalyze()
 {
-	CSyntalyzer syntalyzer;
+	auto pView = reinterpret_cast<CEditView*>(m_viewList.GetHead());
+	
+	/*int nTxtLen = pView->GetWindowTextLengthW();
+	LPTSTR* sCodeText = new LPTSTR[nTxtLen];
+	int nOutLen = 0;
+	pView->GetWindowTextW(*sCodeText, nOutLen);*/
+
+	CString sText;
+	pView->GetWindowTextW(sText);
+
+	CSyntalyzer syntalyzer(sText.GetBuffer());
+
+	auto lexems = syntalyzer.Analyze();
 
 	const auto& errors = syntalyzer.GetErrors();
-
-	auto view = reinterpret_cast<CEditView*>(m_viewList.GetHead());
 	
-	view->SetWindowText(syntalyzer.GetErrorText().c_str());
+	//pView->SetWindowText(syntalyzer.GetErrorText().c_str());
 }

@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 #include "cbtypes.h"
-#include "../Syntalizer/Syntalyzer.h"
+#include "../Syntalyzer/Syntalyzer.h"
 
 int main()
 {
