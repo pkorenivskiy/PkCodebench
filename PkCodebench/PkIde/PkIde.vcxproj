@@ -188,6 +188,7 @@
     <ClInclude Include="FileView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OutputWnd.h" />
+    <ClInclude Include="PkGridView.h" />
     <ClInclude Include="PkIde.h" />
     <ClInclude Include="PkIdeDoc.h" />
     <ClInclude Include="PkIdeView.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
+    <ClCompile Include="PkGridView.cpp" />
     <ClCompile Include="PkIde.cpp" />
     <ClCompile Include="PkIdeDoc.cpp" />
     <ClCompile Include="PkIdeView.cpp" />
