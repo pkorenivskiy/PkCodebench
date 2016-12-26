@@ -124,6 +124,11 @@ void CSyntalyzer::processChar()
 			m_curLexema.push_back(ch);
 			processLexema();
 		}
+		else if (ch == L'(' || ch == L')')
+		{
+			m_curLexema.push_back(ch);
+			processLexema();
+		}
 		else
 		{
 			m_curLexema.push_back(ch);
@@ -140,7 +145,8 @@ void CSyntalyzer::processChar()
 		if (std::iswspace(ch) 
 			|| LOGICALSYM.find(ch) != std::string::npos 
 			|| OPERATORS.find(ch) != std::string::npos
-			|| ch == L',')
+			|| ch == L','
+			|| ch == L'(' || ch == L')')
 		{
 			processLexema();
 			if (std::iswspace(ch) == false)
@@ -194,11 +200,12 @@ void CSyntalyzer::processChar()
 			|| LOGICALSYM.find(ch) != std::string::npos
 			|| OPERATORS.find(ch) != std::string::npos)
 		{
-			processLexema();
+			invalidLexema();
 			m_nPos--;
 		}
 
-		m_curLexema.push_back(ch);
+		if (!std::iswspace(ch))
+			m_curLexema.push_back(ch);
 	}
 }
 
@@ -229,11 +236,11 @@ void CSyntalyzer::constLexema()
 
 void CSyntalyzer::invalidLexema()
 {
-	processLexema();
-
 	wchar_t err[512];
 	swprintf_s(err, 512, L"Line %d. Syntax error. Unknown lexema \"%s\"", m_nLine, m_curLexema.c_str());
-	m_Errors.push_back(err);
+	m_Errors.push_back(err); 
+	
+	processLexema();
 }
 
 void CSyntalyzer::processNewLine()

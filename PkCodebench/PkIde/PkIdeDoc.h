@@ -6,6 +6,7 @@
 #pragma once
 
 #include "../Syntalyzer/Syntalyzer.h"
+#include "../Lexilyzer/Lexilyzer.h"
 
 class CPkIdeDoc : public CDocument
 {

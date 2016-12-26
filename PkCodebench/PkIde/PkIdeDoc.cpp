@@ -13,6 +13,8 @@
 
 #include "PkIdeDoc.h"
 
+#include "MainFrm.h"
+
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -198,11 +200,6 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 {
 	auto pView = reinterpret_cast<CEditView*>(m_viewList.GetHead());
 	
-	/*int nTxtLen = pView->GetWindowTextLengthW();
-	LPTSTR* sCodeText = new LPTSTR[nTxtLen];
-	int nOutLen = 0;
-	pView->GetWindowTextW(*sCodeText, nOutLen);*/
-
 	CString sText;
 	pView->GetWindowTextW(sText);
 
@@ -212,5 +209,19 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 
 	const auto& errors = syntalyzer.GetErrors();
 	
-	//pView->SetWindowText(syntalyzer.GetErrorText().c_str());
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+	pFrame->SetLexemsData(lexems);
+
+	if (errors.size() > 0)
+		pFrame->SetBuildData(errors);
+
+	CLexilyzer lexilyzer;
+	lexilyzer.Analyze(lexems);
+
+	auto lexErrors = lexilyzer.GetErrors();
+	if (lexErrors.size() > 0)
+	{
+		pFrame->SetBuildData(lexErrors);
+	}
 }

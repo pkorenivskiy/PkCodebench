@@ -46,12 +46,18 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
 
 	if (!m_wndOutputBuild.Create(dwStyle, rectDummy, &m_wndTabs, 2) ||
-		!m_wndOutputDebug.Create(dwStyle, rectDummy, &m_wndTabs, 3) ||
-		!m_wndOutputFind.Create(dwStyle, rectDummy, &m_wndTabs, 4))
+		!m_wndOutLexems.Create(dwStyle, rectDummy, &m_wndTabs, 3)/* ||
+		!m_wndOutputFind.Create(dwStyle, rectDummy, &m_wndTabs, 4)*/)
 	{
 		TRACE0("Failed to create output windows\n");
 		return -1;      // fail to create
 	}
+
+	//create out table
+	const DWORD dwOutStyle = WS_CHILD | WS_VISIBLE | LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP;
+	m_wndOutTrm.Create(dwOutStyle, rectDummy, &m_wndTabs, IDC_OUTTRMTBL);
+	m_wndOutCon.Create(dwOutStyle, rectDummy, &m_wndTabs, IDC_OUTTRMTBL);
+	m_wndOutVar.Create(dwOutStyle, rectDummy, &m_wndTabs, IDC_OUTTRMTBL);
 
 	UpdateFonts();
 
@@ -62,17 +68,36 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	bNameValid = strTabName.LoadString(IDS_BUILD_TAB);
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutputBuild, strTabName, (UINT)0);
-	bNameValid = strTabName.LoadString(IDS_DEBUG_TAB);
+	bNameValid = strTabName.LoadString(IDS_LEXEMS_TAB);
+	ASSERT(bNameValid);
+	m_wndTabs.AddTab(&m_wndOutLexems, strTabName, (UINT)0);
+
+	/*bNameValid = strTabName.LoadString(IDS_DEBUG_TAB);
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutputDebug, strTabName, (UINT)1);
 	bNameValid = strTabName.LoadString(IDS_FIND_TAB);
 	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)2);
+	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)2);*/
+
+
+	bNameValid = strTabName.LoadString(IDS_OUTTERM);
+	ASSERT(bNameValid);
+	m_wndTabs.AddTab(&m_wndOutTrm, strTabName, (UINT)2);
+
+	bNameValid = strTabName.LoadString(IDS_OUTTERM);
+	ASSERT(bNameValid);
+	m_wndTabs.AddTab(&m_wndOutCon, strTabName, (UINT)3);
+
+	bNameValid = strTabName.LoadString(IDS_OUTTERM);
+	ASSERT(bNameValid);
+	m_wndTabs.AddTab(&m_wndOutVar, strTabName, (UINT)4);
 
 	// Fill output tabs with some dummy text (nothing magic here)
 	FillBuildWindow();
-	FillDebugWindow();
-	FillFindWindow();
+	/*FillDebugWindow();
+	FillFindWindow();*/
+
+	FillOutTable();
 
 	return 0;
 }
@@ -106,30 +131,119 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 
 void COutputWnd::FillBuildWindow()
 {
-	m_wndOutputBuild.AddString(_T("Build output is being displayed here."));
-	m_wndOutputBuild.AddString(_T("The output is being displayed in rows of a list view"));
-	m_wndOutputBuild.AddString(_T("but you can change the way it is displayed as you wish..."));
+	//m_wndOutputBuild.AddString(_T("Build output is being displayed here."));
+	//m_wndOutputBuild.AddString(_T("The output is being displayed in rows of a list view"));
+	//m_wndOutputBuild.AddString(_T("but you can change the way it is displayed as you wish..."));
 }
 
 void COutputWnd::FillDebugWindow()
 {
-	m_wndOutputDebug.AddString(_T("Debug output is being displayed here."));
+	/*m_wndOutputDebug.AddString(_T("Debug output is being displayed here."));
 	m_wndOutputDebug.AddString(_T("The output is being displayed in rows of a list view"));
-	m_wndOutputDebug.AddString(_T("but you can change the way it is displayed as you wish..."));
+	m_wndOutputDebug.AddString(_T("but you can change the way it is displayed as you wish..."));*/
 }
 
 void COutputWnd::FillFindWindow()
 {
-	m_wndOutputFind.AddString(_T("Find output is being displayed here."));
+	/*m_wndOutputFind.AddString(_T("Find output is being displayed here."));
 	m_wndOutputFind.AddString(_T("The output is being displayed in rows of a list view"));
-	m_wndOutputFind.AddString(_T("but you can change the way it is displayed as you wish..."));
+	m_wndOutputFind.AddString(_T("but you can change the way it is displayed as you wish..."));*/
+}
+
+void COutputWnd::FillOutTable()
+{
+	m_wndOutTrm.InsertColumn(0, L"Page");
+	m_wndOutTrm.SetColumnWidth(0, 60);
+
+	m_wndOutTrm.InsertColumn(1, L"Last Modified");
+	m_wndOutTrm.SetColumnWidth(0, 60);
+
+	m_wndOutTrm.InsertColumn(2, L"Prioirty");
+	m_wndOutTrm.SetColumnWidth(2, 50);
+
+	m_wndOutTrm.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
+
+	m_wndOutCon.InsertColumn(0, L"Page");
+	m_wndOutCon.SetColumnWidth(0, 60);
+
+	m_wndOutCon.InsertColumn(1, L"Last Modified");
+	m_wndOutCon.SetColumnWidth(0, 60);
+
+	m_wndOutCon.InsertColumn(2, L"Prioirty");
+	m_wndOutCon.SetColumnWidth(2, 50);
+
+	m_wndOutCon.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
+
+	m_wndOutVar.InsertColumn(0, L"Page");
+	m_wndOutVar.SetColumnWidth(0, 60);
+
+	m_wndOutVar.InsertColumn(1, L"Last Modified");
+	m_wndOutVar.SetColumnWidth(0, 60);
+
+	m_wndOutVar.InsertColumn(2, L"Prioirty");
+	m_wndOutVar.SetColumnWidth(2, 50);
+
+	m_wndOutVar.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
+}
+
+void COutputWnd::SetBuildData(const std::vector<std::wstring>& buildData, bool isClear)
+{
+	if (isClear)
+		m_wndOutputBuild.ResetContent();
+
+	for (auto& it : buildData)
+		m_wndOutputBuild.AddString(it.c_str());
+}
+
+void COutputWnd::SetLexemsData(const TvLnLexems& lexems)
+{
+	for (auto it : lexems)
+	{
+		std::wstring sOut = L"";
+		for (auto itLex : it)
+		{
+			sOut += L"\"" + itLex.Name + L"\" ";
+		}
+		m_wndOutLexems.AddString(sOut.c_str());
+	}
+}
+
+void COutputWnd::SetBuildData(const std::map<size_t, std::wstring>& buildData, bool isClear)
+{
+	if (isClear)
+		m_wndOutputBuild.ResetContent();
+
+	wchar_t lpwszErr[512];
+	for (auto& it : buildData)
+	{
+		swprintf_s(lpwszErr, 512, L"Line %d: %s", it.first, it.second.c_str());
+		m_wndOutputBuild.AddString(lpwszErr);
+	}
+}
+
+void COutputWnd::SetTrmData(bool isClear)
+{
+	if (isClear)
+		m_wndOutTrm.Clear();
+}
+
+void COutputWnd::SetConData(bool isClear)
+{
+	if (isClear)
+		m_wndOutCon.Clear();
+}
+
+void COutputWnd::SetVarData(bool isClear)
+{
+	if (isClear)
+		m_wndOutCon.Clear();
 }
 
 void COutputWnd::UpdateFonts()
 {
 	m_wndOutputBuild.SetFont(&afxGlobalData.fontRegular);
-	m_wndOutputDebug.SetFont(&afxGlobalData.fontRegular);
-	m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);
+	/*m_wndOutputDebug.SetFont(&afxGlobalData.fontRegular);
+	m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);*/
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -176,12 +290,12 @@ void COutputList::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 
 void COutputList::OnEditCopy()
 {
-	MessageBox(_T("Copy output"));
+	//MessageBox(_T("Copy output"));
 }
 
 void COutputList::OnEditClear()
 {
-	MessageBox(_T("Clear output"));
+	//MessageBox(_T("Clear output"));
 }
 
 void COutputList::OnViewOutput()

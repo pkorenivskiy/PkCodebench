@@ -57,6 +57,9 @@
     <ClInclude Include="PkGridView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OutTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PkIde.cpp">
@@ -93,6 +96,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PkGridView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OutTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

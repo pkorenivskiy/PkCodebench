@@ -7,6 +7,7 @@
 #include "Lexema.h"
 
 typedef std::vector<std::wstring> TvErrors;
+typedef std::map<size_t, std::wstring> TmErrors;
 
 typedef std::vector<std::vector<PkLexema>> TvLnLexems; // line -> lexems
 

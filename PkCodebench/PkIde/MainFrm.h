@@ -43,6 +43,15 @@ protected:  // control bar embedded members
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 
+public:	
+	void SetBuildData(const std::vector<std::wstring>& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
+	void SetBuildData(const std::map<size_t, std::wstring>& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
+	void SetLexemsData(const TvLnLexems& lexems) { m_wndOutput.SetLexemsData(lexems); }
+	void SetTrmData(bool isClear = true) { m_wndOutput.SetTrmData(isClear); };
+	void SetConData(bool isClear = true) { m_wndOutput.SetConData(isClear); };
+	void SetVarData(bool isClear = true) { m_wndOutput.SetVarData(isClear); };
+
+
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

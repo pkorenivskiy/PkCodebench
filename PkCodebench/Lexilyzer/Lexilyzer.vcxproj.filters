@@ -21,7 +21,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lexilyxer.h">
+    <ClInclude Include="Lexilyzer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lexilyxer.cpp">
+    <ClCompile Include="Lexilyzer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

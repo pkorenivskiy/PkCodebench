@@ -188,6 +188,7 @@
     <ClInclude Include="FileView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OutputWnd.h" />
+    <ClInclude Include="OutTable.h" />
     <ClInclude Include="PkGridView.h" />
     <ClInclude Include="PkIde.h" />
     <ClInclude Include="PkIdeDoc.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
+    <ClCompile Include="OutTable.cpp" />
     <ClCompile Include="PkGridView.cpp" />
     <ClCompile Include="PkIde.cpp" />
     <ClCompile Include="PkIdeDoc.cpp" />
@@ -252,6 +254,9 @@
     <Image Include="UserImages.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lexilyzer\Lexilyzer.vcxproj">
+      <Project>{0f122d9a-857e-49cf-9234-71e35894d48b}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Syntalyzer\Syntalizer.vcxproj">
       <Project>{82a4cb25-6ab5-4092-a346-940362d77005}</Project>
     </ProjectReference>

@@ -1,0 +1,4 @@
+int a, b, 12f
+read(a, b)
+int f = a + b
+write(f)
