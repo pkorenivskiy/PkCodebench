@@ -65,7 +65,7 @@ public:
 	virtual ~COutputWnd();
 
 	void SetBuildData(const std::vector<std::wstring>& buildData, bool isClear = true);
-	void SetBuildData(const std::map<size_t, std::wstring>& buildData, bool isClear = true);
+	void SetBuildData(const TmErrors& buildData, bool isClear = true);
 	void SetLexemsData(const TvLnLexems& lexems);
 	void SetTrmData(bool isClear = true);
 	void SetConData(bool isClear = true);

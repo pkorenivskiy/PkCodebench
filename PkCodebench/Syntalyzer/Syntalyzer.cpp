@@ -248,7 +248,7 @@ void CSyntalyzer::processNewLine()
 	if (m_curLexema.empty() == false)
 		processLexema();
 
-	if (m_outLexems.back().empty() == false)
+	//if (m_outLexems.back().empty() == false)
 		m_outLexems.push_back(std::vector<PkLexema>());
 
 	m_nPos--;

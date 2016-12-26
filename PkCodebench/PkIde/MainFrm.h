@@ -7,6 +7,7 @@
 #include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
+#include "cbtypes.h"
 
 class CMainFrame : public CMDIFrameWndEx
 {
@@ -45,7 +46,7 @@ protected:  // control bar embedded members
 
 public:	
 	void SetBuildData(const std::vector<std::wstring>& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
-	void SetBuildData(const std::map<size_t, std::wstring>& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
+	void SetBuildData(const TmErrors& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
 	void SetLexemsData(const TvLnLexems& lexems) { m_wndOutput.SetLexemsData(lexems); }
 	void SetTrmData(bool isClear = true) { m_wndOutput.SetTrmData(isClear); };
 	void SetConData(bool isClear = true) { m_wndOutput.SetConData(isClear); };

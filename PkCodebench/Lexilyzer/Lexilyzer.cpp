@@ -40,7 +40,7 @@ bool CLexilyzer::Analyze(const TvLnLexems& lexems)
 				std::wstring sName = L"";
 				for (auto n : lexems[i])
 					if (!n.Name.empty())
-						sName += sName + n.Name + L" ";
+						sName += n.Name + L" ";
 				addError(i, sName, L" syntax error.");
 			}
 		}
@@ -215,7 +215,12 @@ void CLexilyzer::addError(size_t nLine, const std::wstring& stoken, const std::w
 	}
 	error += msg;
 
-	m_mErrors.insert(std::pair<size_t, std::wstring>(nLine, error));
+	if (m_mErrors.find(nLine) == m_mErrors.end())
+	{
+		m_mErrors.insert(TmErrorsVt(nLine, std::vector<std::wstring>()));
+	}
+
+	m_mErrors[nLine].push_back(error);
 }
 
 void CLexilyzer::initLexems()

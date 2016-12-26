@@ -208,7 +208,7 @@ void COutputWnd::SetLexemsData(const TvLnLexems& lexems)
 	}
 }
 
-void COutputWnd::SetBuildData(const std::map<size_t, std::wstring>& buildData, bool isClear)
+void COutputWnd::SetBuildData(const TmErrors& buildData, bool isClear)
 {
 	if (isClear)
 		m_wndOutputBuild.ResetContent();
@@ -216,8 +216,11 @@ void COutputWnd::SetBuildData(const std::map<size_t, std::wstring>& buildData, b
 	wchar_t lpwszErr[512];
 	for (auto& it : buildData)
 	{
-		swprintf_s(lpwszErr, 512, L"Line %d: %s", it.first, it.second.c_str());
-		m_wndOutputBuild.AddString(lpwszErr);
+		for (auto& itErr : it.second)
+		{
+			swprintf_s(lpwszErr, 512, L"Line %d: %s", it.first, itErr.c_str());
+			m_wndOutputBuild.AddString(lpwszErr);
+		}
 	}
 }
 
