@@ -48,9 +48,5 @@ struct PkOutIdn
 struct PkOutConst
 {
 	size_t Index;
-	union Const
-	{
-		int IntVal;
-		double DblVal;
-	};
+	int Value;
 };

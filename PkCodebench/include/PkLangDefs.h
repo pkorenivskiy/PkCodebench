@@ -11,7 +11,7 @@ static const std::vector<PkLexema> LEXEMS =
 	{ PkLexema{ L"for", Keyword, 3 } },
 	{ PkLexema{ L"by", Keyword, 4 } },
 	{ PkLexema{ L"while", Keyword, 5 } },
-	{ PkLexema{ L"end", Keyword, 6 } },
+	{ PkLexema{ L"do", Keyword, 6 } },
 				 
 	{ PkLexema{ L"if", Keyword, 7 } },
 	{ PkLexema{ L"then", Keyword, 8 } },

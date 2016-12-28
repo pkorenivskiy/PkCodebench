@@ -1,12 +1,16 @@
 #include "stdafx.h"
 
 #include <cwctype>
+#include <algorithm>  
 
 #include "Lexilyzer.h"
 
 
 CLexilyzer::CLexilyzer()
+	: LOGICALSYM(L"<=>!&")
+	, OPERATORS(L"+-*/^")
 {
+	initLexems();
 }
 
 
@@ -16,33 +20,46 @@ CLexilyzer::~CLexilyzer()
 
 bool CLexilyzer::Analyze(const TvLnLexems& lexems)
 {
-	bool result = true;
+	clearResult();
 
 	for (size_t i = 0; i < lexems.size(); i++)
+		validate(lexems[i], i);
+
+	return m_mErrors.empty();
+}
+
+size_t CLexilyzer::validate(const std::vector<PkLexema>& lnLexems, size_t line, size_t start)
+{
+	bool result = 0;	
+
+	if (lnLexems.empty())
+		return 0;
+
+	for (auto& it = lnLexems.begin() + start; it != lnLexems.end(); it++, result++)
 	{
-		//for (auto it : lexems[i])
-		if (lexems[i].size() > 0)
+		if (it->Name == L"int")
 		{
-			if (lexems[i][0].Name == L"int")
-			{
-				processDeclare(lexems[i], i);
-			}
-			else if (lexems[i][0].Name == L"read")
-			{
-				processRead(lexems[i], i);
-			}
-			else if (lexems[i][0].Name == L"write")
-			{
-				processWrite(lexems[i], i);
-			}
-			else
-			{
-				std::wstring sName = L"";
-				for (auto n : lexems[i])
-					if (!n.Name.empty())
-						sName += n.Name + L" ";
-				addError(i, sName, L" syntax error.");
-			}
+			processDeclare(lnLexems, line, 1);
+		}
+		else if (it->Name == L"read")
+		{
+			processRead(lnLexems, line);
+		}
+		else if (it->Name == L"write")
+		{
+			processWrite(lnLexems, line);
+		}
+		else if (it->Name == L"for")
+		{
+			processFor(lnLexems, line);
+		}
+		else
+		{
+			std::wstring sName = L"";
+			for (auto n : lnLexems)
+				if (!n.Name.empty())
+					sName += n.Name + L" ";
+			addError(line, sName, L" syntax error.");
 		}
 	}
 
@@ -60,7 +77,7 @@ bool CLexilyzer::isTerm(const std::wstring& lex)
 
 bool CLexilyzer::isIdn(const std::wstring& lex) 
 {
-	bool result = false;
+	bool result = m_mOutIdn.find(lex) == m_mOutIdn.end();
 
 	return result;
 }
@@ -68,6 +85,16 @@ bool CLexilyzer::isIdn(const std::wstring& lex)
 bool CLexilyzer::isCon(const std::wstring& lex)
 {
 	bool result = false;
+
+	int nVal = _wtoi(lex.c_str());
+
+	if (std::find_if(m_vOutConst.begin(), m_vOutConst.end(), [&nVal](const PkOutConst& o) {return o.Value == nVal; }) == m_vOutConst.end())
+	{
+		if (!lex.empty() && std::iswdigit(lex[0]))
+		{
+			m_vOutConst.push_back(PkOutConst{ m_vOutConst.size(), nVal });
+		}
+	}
 
 	return result;
 }
@@ -77,10 +104,10 @@ bool CLexilyzer::isKw(const std::wstring& lex)
 	return m_mLexems.find(lex) != m_mLexems.end();
 }
 
-void CLexilyzer::processDeclare(const std::vector<PkLexema>& lexems, const size_t line)
+void CLexilyzer::processDeclare(const std::vector<PkLexema>& lexems, const size_t line, size_t start)
 {
 	bool skip = true;
-	for (auto it = lexems.begin() + 1; it != lexems.end(); it++)
+	for (auto it = lexems.begin() + start; it != lexems.end(); it++)
 	{
 		skip = !skip;
 		if (it->Name == L",")
@@ -111,9 +138,12 @@ void CLexilyzer::processDeclare(const std::vector<PkLexema>& lexems, const size_
 	}
 }
 
-void CLexilyzer::processRead(const std::vector<PkLexema>& lexems, const size_t line)
+void CLexilyzer::processRead(const std::vector<PkLexema>& lexems, const size_t line, size_t start)
 {
 	bool skip = true;
+
+	if (lexems.size() < 3)
+		return;
 
 	if (lexems[1].Name != L"(")
 	{
@@ -155,9 +185,12 @@ void CLexilyzer::processRead(const std::vector<PkLexema>& lexems, const size_t l
 	}
 }
 
-void CLexilyzer::processWrite(const std::vector<PkLexema>& lexems, const size_t line)
+void CLexilyzer::processWrite(const std::vector<PkLexema>& lexems, const size_t line, size_t start)
 {
 	bool skip = true;
+
+	if (lexems.size() < 3)
+		return;
 
 	if (lexems[1].Name != L"(")
 	{
@@ -197,6 +230,114 @@ void CLexilyzer::processWrite(const std::vector<PkLexema>& lexems, const size_t 
 			}
 		}
 	}
+}
+
+void CLexilyzer::processFor(const std::vector<PkLexema>& lexems, const size_t line, size_t start)
+{	
+	ForStates state = Init;
+	for (auto& it = lexems.begin() + start; it != lexems.end(); it++)
+	{
+		switch (state)
+		{
+		case Init:
+			if (it->Name != L"for")
+				addError(line, it->Name, L"Unexpected token.");
+			state = Expr;
+			break;
+		case Expr:
+			if (isIdn((++it)->Name) && (++it)->Name == L"=")
+			{
+				processExpr(lexems, line, lexems.end() - it);
+				state = By;
+			}
+			else
+			{
+				addError(line, L"", L" syntax error. Missed expression.");
+			}
+			break;
+		case By:
+			if (it->Name != L"by")
+				addError(line, it->Name, L"Unexpected token. Expected \"by\".");
+			state = LExpr;
+			break;
+		case LExpr:
+			//processLExpr();
+			state = Do;
+			break;
+		case Do:
+			if (it->Name != L"do")
+				addError(line, it->Name, L"Unexpected token. Expected \"by\".");
+			else
+				validate(lexems, line, it - lexems.begin() + 1);
+			break;
+		default:			
+			break;
+		}
+	}
+}
+
+size_t CLexilyzer::processExpr(const std::vector<PkLexema>& lexems, const size_t line, size_t start)
+{
+	size_t result = 0;
+
+	size_t state = 0;
+
+	for (auto& it = lexems.begin() + start; it != lexems.end(); it++, result++)
+	{
+		// hack - break if by while do
+		if (it->Name == L"by" || it->Name == L"while" || it->Name == L"do")
+			break;
+
+		switch (state)
+		{
+		case 0: //init
+			if (it->Name == L"-")
+				state = 1;
+			else if ()
+			break;
+		case 1: // unary minus
+			if (!(isIdn(it->Name) || isCon(it->Name)))
+			{
+				addError(line, it->Name, L" undeclared identifier.");
+				state = -1; // finite la 
+			}
+			else
+				state = 1;
+			break;
+		case 2: // math
+			if (OPERATORS.find(it->Name) == std::string::npos)
+			{
+				addError(line, L"", L" syntax error");
+				state = -1;
+			}
+			else
+				state = 1;
+			break;
+		default:
+			break;
+		}
+
+		
+
+		it++; result++;
+		while (it != lexems.end())
+		{
+			if (it->Name == L"")
+
+		}
+	}
+
+	return result;
+}
+
+void CLexilyzer::clearResult()
+{
+	m_nLine = 0;
+	m_vOutLex.clear();
+	m_vOutConst.clear();
+	m_mOutIdn.clear();
+
+	m_mErrors.clear();
 }
 
 bool CLexilyzer::isVarNameValid(const std::wstring& st)
