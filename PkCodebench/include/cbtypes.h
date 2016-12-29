@@ -10,7 +10,10 @@ typedef std::vector<std::wstring> TvErrors;
 typedef std::map<size_t, std::vector<std::wstring>> TmErrors;
 typedef TmErrors::value_type TmErrorsVt;
 
-typedef std::vector<std::vector<PkLexema>> TvLnLexems; // line -> lexems
+typedef std::vector<PkLexema> TvLexLine;
+typedef TvLexLine::iterator TvLexLineIt;
+typedef std::vector<TvLexLine> TvLexLines; // line -> lexems
+typedef TvLexLines::iterator TvLexLinesIt;
 
 typedef std::vector<PkOutLexema> TvOutLexems;
 typedef std::map<std::wstring, PkOutIdn> TmOutIdent;

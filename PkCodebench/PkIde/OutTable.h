@@ -13,6 +13,7 @@ public:
 
 public:
 	void AddData(int row, int col, const wchar_t *str);
+	void AddData(int col, const wchar_t *str);
 	void Clear();
 
 protected:

@@ -24,7 +24,7 @@ protected:
 	};
 
 public:
-	bool Analyze(const TvLnLexems& lexems);
+	bool Analyze(TvLexLines& lexems);
 	const TvOutLexems GetLexems() const { return m_vOutLex; }
 	const TmOutIdent GetIdns() const { return m_mOutIdn; }
 	const TvOutConst GetConst() const { return m_vOutConst; }
@@ -39,14 +39,14 @@ private:
 	bool isCon(const std::wstring& lex);
 	bool isKw(const std::wstring& lex);
 
-	size_t validate(const std::vector<PkLexema>& lnLexems, size_t line, size_t start = 0);
+	size_t validate(std::vector<PkLexema>& lnLexems, size_t line, size_t start = 0);
 
 	bool isVarNameValid(const std::wstring& st);
 
-	void processDeclare(const std::vector<PkLexema>& lexems, const size_t line, size_t start = 0);
-	void processRead(const std::vector<PkLexema>& lexems, const size_t line, size_t start = 0);
-	void processWrite(const std::vector<PkLexema>& lexems, const size_t line, size_t start = 0);
-	void processFor(const std::vector<PkLexema>& lexems, const size_t line, size_t start = 0);
+	void processDeclare(const std::vector<PkLexema>& lexems, IdnTypes idnType, const size_t line);
+	void processRead(const std::vector<PkLexema>& lexems, const size_t line);
+	void processWrite(const std::vector<PkLexema>& lexems, const size_t line);
+	void processFor(std::vector<PkLexema>& lexems, const size_t line);
 
 	size_t processExpr(const std::vector<PkLexema>& lexems, const size_t line, size_t start = 0);
 
@@ -55,8 +55,11 @@ private:
 	void addError(size_t nLine, const std::wstring& stoken, const std::wstring& msg);
 	
 private:
-	TvLnLexems m_vInLexems;
+	//TvLexLines m_vInLexems;
+	
 	size_t m_nLine;
+	TvLexLinesIt m_itText;
+	TvLexLineIt m_itLine;
 
 private:
 	TvOutLexems m_vOutLex;

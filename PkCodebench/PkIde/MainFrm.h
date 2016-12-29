@@ -47,10 +47,10 @@ protected:  // control bar embedded members
 public:	
 	void SetBuildData(const std::vector<std::wstring>& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
 	void SetBuildData(const TmErrors& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
-	void SetLexemsData(const TvLnLexems& lexems) { m_wndOutput.SetLexemsData(lexems); }
-	void SetTrmData(bool isClear = true) { m_wndOutput.SetTrmData(isClear); };
-	void SetConData(bool isClear = true) { m_wndOutput.SetConData(isClear); };
-	void SetVarData(bool isClear = true) { m_wndOutput.SetVarData(isClear); };
+	void SetLexemsData(const TvLexLines& lexems) { m_wndOutput.SetLexemsData(lexems); }
+	void SetTrmData(const TvOutLexems& data, bool isClear = true) { m_wndOutput.SetTrmData(data, isClear); };
+	void SetConData(const TvOutConst& data, bool isClear = true) { m_wndOutput.SetConData(data, isClear); };
+	void SetVarData(const TmOutIdent& data, bool isClear = true) { m_wndOutput.SetVarData(data, isClear); };
 
 
 // Generated message map functions

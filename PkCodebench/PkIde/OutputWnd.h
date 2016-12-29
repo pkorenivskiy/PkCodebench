@@ -66,10 +66,11 @@ public:
 
 	void SetBuildData(const std::vector<std::wstring>& buildData, bool isClear = true);
 	void SetBuildData(const TmErrors& buildData, bool isClear = true);
-	void SetLexemsData(const TvLnLexems& lexems);
-	void SetTrmData(bool isClear = true);
-	void SetConData(bool isClear = true);
-	void SetVarData(bool isClear = true);
+	void SetLexemsData(const TvLexLines& lexems);
+	
+	void SetTrmData(const TvOutLexems& data, bool isClear = true);
+	void SetConData(const TvOutConst& data, bool isClear = true);
+	void SetVarData(const TmOutIdent& data, bool isClear = true);
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

@@ -49,7 +49,7 @@ const std::wstring CSyntalyzer::GetErrorText() const
 	return result;
 }
 
-const TvLnLexems CSyntalyzer::Analyze()
+const TvLexLines CSyntalyzer::Analyze()
 {
 	m_curState = ReadNexChar;
 

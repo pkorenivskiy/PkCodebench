@@ -1,0 +1,10 @@
+int a, b, c
+label one:
+c = a + b + 5
+if a == b then goto one:
+if a <> c then goto one:
+one:
+read(b)
+int i
+for i = 1 by i = i + 1 while i < 5 do b = b + i
+write (b)

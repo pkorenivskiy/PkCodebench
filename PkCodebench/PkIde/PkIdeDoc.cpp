@@ -224,4 +224,7 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 	{
 		pFrame->SetBuildData(lexErrors);
 	}
+
+	auto idnData = lexilyzer.GetIdns();
+	pFrame->SetVarData(idnData);
 }

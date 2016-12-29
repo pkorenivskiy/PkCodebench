@@ -39,6 +39,19 @@ void COutTable::AddData(int row, int col, const wchar_t *str)
 		SetItem(&lv);
 }
 
+void COutTable::AddData(int col, const wchar_t *str)
+{
+	LVITEM lv;
+	lv.iItem = GetItemCount();
+	lv.iSubItem = col;
+	lv.pszText = (LPTSTR)str;
+	lv.mask = LVIF_TEXT;
+	if (col == 0)
+		InsertItem(&lv);
+	else
+		SetItem(&lv);
+}
+
 void COutTable::Clear()
 {
 	DeleteAllItems();

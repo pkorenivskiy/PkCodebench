@@ -84,11 +84,11 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutTrm, strTabName, (UINT)2);
 
-	bNameValid = strTabName.LoadString(IDS_OUTTERM);
+	bNameValid = strTabName.LoadString(IDS_OUTCON);
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutCon, strTabName, (UINT)3);
 
-	bNameValid = strTabName.LoadString(IDS_OUTTERM);
+	bNameValid = strTabName.LoadString(IDS_OUTIDN);
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutVar, strTabName, (UINT)4);
 
@@ -152,35 +152,35 @@ void COutputWnd::FillFindWindow()
 
 void COutputWnd::FillOutTable()
 {
-	m_wndOutTrm.InsertColumn(0, L"Page");
+	m_wndOutTrm.InsertColumn(0, L"Index");
 	m_wndOutTrm.SetColumnWidth(0, 60);
 
-	m_wndOutTrm.InsertColumn(1, L"Last Modified");
-	m_wndOutTrm.SetColumnWidth(0, 60);
+	m_wndOutTrm.InsertColumn(1, L"Name");
+	m_wndOutTrm.SetColumnWidth(1, 100);
 
-	m_wndOutTrm.InsertColumn(2, L"Prioirty");
+	m_wndOutTrm.InsertColumn(2, L"Code");
 	m_wndOutTrm.SetColumnWidth(2, 50);
+
+	m_wndOutTrm.InsertColumn(3, L"Index");
+	m_wndOutTrm.SetColumnWidth(3, 50);
 
 	m_wndOutTrm.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
-	m_wndOutCon.InsertColumn(0, L"Page");
+	m_wndOutCon.InsertColumn(0, L"Name");
 	m_wndOutCon.SetColumnWidth(0, 60);
 
-	m_wndOutCon.InsertColumn(1, L"Last Modified");
-	m_wndOutCon.SetColumnWidth(0, 60);
-
-	m_wndOutCon.InsertColumn(2, L"Prioirty");
-	m_wndOutCon.SetColumnWidth(2, 50);
+	m_wndOutCon.InsertColumn(1, L"Index");
+	m_wndOutCon.SetColumnWidth(1, 60);
 
 	m_wndOutCon.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
-	m_wndOutVar.InsertColumn(0, L"Page");
+	m_wndOutVar.InsertColumn(0, L"Index");
 	m_wndOutVar.SetColumnWidth(0, 60);
 
-	m_wndOutVar.InsertColumn(1, L"Last Modified");
-	m_wndOutVar.SetColumnWidth(0, 60);
+	m_wndOutVar.InsertColumn(1, L"Name");
+	m_wndOutVar.SetColumnWidth(1, 60);
 
-	m_wndOutVar.InsertColumn(2, L"Prioirty");
+	m_wndOutVar.InsertColumn(2, L"Type");
 	m_wndOutVar.SetColumnWidth(2, 50);
 
 	m_wndOutVar.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
@@ -195,7 +195,7 @@ void COutputWnd::SetBuildData(const std::vector<std::wstring>& buildData, bool i
 		m_wndOutputBuild.AddString(it.c_str());
 }
 
-void COutputWnd::SetLexemsData(const TvLnLexems& lexems)
+void COutputWnd::SetLexemsData(const TvLexLines& lexems)
 {
 	for (auto it : lexems)
 	{
@@ -224,22 +224,35 @@ void COutputWnd::SetBuildData(const TmErrors& buildData, bool isClear)
 	}
 }
 
-void COutputWnd::SetTrmData(bool isClear)
+void COutputWnd::SetTrmData(const TvOutLexems& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutTrm.Clear();
 }
 
-void COutputWnd::SetConData(bool isClear)
+void COutputWnd::SetConData(const TvOutConst& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutCon.Clear();
 }
 
-void COutputWnd::SetVarData(bool isClear)
+void COutputWnd::SetVarData(const TmOutIdent&data, bool isClear)
 {
 	if (isClear)
-		m_wndOutCon.Clear();
+		m_wndOutVar.Clear();
+
+	wchar_t lptszBuf[10];
+	int nRow = 0;
+	for (auto it : data)
+	{
+		_itow_s(it.second.Index, lptszBuf, 10, 10);
+		m_wndOutVar.AddData(nRow, 0, lptszBuf);
+
+		m_wndOutVar.AddData(nRow, 1, it.second.Name.c_str());
+
+		_itow_s(it.second.Type, lptszBuf, 10, 10);
+		m_wndOutVar.AddData(nRow++, 2, lptszBuf);
+	}
 }
 
 void COutputWnd::UpdateFonts()

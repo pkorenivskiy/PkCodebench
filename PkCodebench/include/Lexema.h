@@ -18,7 +18,8 @@ enum LexemClasses
 
 enum IdnTypes
 {
-	Integer
+	Int,
+	Lbl
 };
 
 struct PkLexema

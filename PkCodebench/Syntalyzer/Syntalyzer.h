@@ -29,7 +29,7 @@ protected:
 	typedef mapLexems::const_iterator mapLexemsCIt;
 
 public:
-	const TvLnLexems Analyze();
+	const TvLexLines Analyze();
 	const TvErrors GetErrors() const;
 	const std::wstring GetErrorText() const;
 
@@ -47,7 +47,7 @@ private:
 	mapActions m_actions;
 
 	TvErrors m_Errors;
-	TvLnLexems m_outLexems;
+	TvLexLines m_outLexems;
 
 	SynStates m_curState;
 	std::wstring m_curLexema;
