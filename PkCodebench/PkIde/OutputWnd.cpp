@@ -195,12 +195,12 @@ void COutputWnd::SetBuildData(const std::vector<std::wstring>& buildData, bool i
 		m_wndOutputBuild.AddString(it.c_str());
 }
 
-void COutputWnd::SetLexemsData(const TvLexLines& lexems)
+void COutputWnd::SetLexemsData(const PkLang::TmPkOutLexems& lexems)
 {
 	for (auto it : lexems)
 	{
 		std::wstring sOut = L"";
-		for (auto itLex : it)
+		for (auto itLex : it.second)
 		{
 			sOut += L"\"" + itLex.Name + L"\" ";
 		}
@@ -208,7 +208,7 @@ void COutputWnd::SetLexemsData(const TvLexLines& lexems)
 	}
 }
 
-void COutputWnd::SetBuildData(const TmErrors& buildData, bool isClear)
+void COutputWnd::SetBuildData(const PkLang::TmErrors& buildData, bool isClear)
 {
 	if (isClear)
 		m_wndOutputBuild.ResetContent();
@@ -224,19 +224,19 @@ void COutputWnd::SetBuildData(const TmErrors& buildData, bool isClear)
 	}
 }
 
-void COutputWnd::SetTrmData(const TvOutLexems& data, bool isClear)
+void COutputWnd::SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutTrm.Clear();
 }
 
-void COutputWnd::SetConData(const TvOutConst& data, bool isClear)
+void COutputWnd::SetConstData(const PkLang::TmPkOutConsts& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutCon.Clear();
 }
 
-void COutputWnd::SetVarData(const TmOutIdent&data, bool isClear)
+void COutputWnd::SetVarData(const PkLang::TmPkOutIdns& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutVar.Clear();

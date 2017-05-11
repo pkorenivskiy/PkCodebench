@@ -6,7 +6,7 @@
 
 #include "OutTable.h"
 
-#include "cbtypes.h"
+#include "../PkLangDefs/PkLang.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // COutputList window
@@ -65,12 +65,12 @@ public:
 	virtual ~COutputWnd();
 
 	void SetBuildData(const std::vector<std::wstring>& buildData, bool isClear = true);
-	void SetBuildData(const TmErrors& buildData, bool isClear = true);
-	void SetLexemsData(const TvLexLines& lexems);
+	void SetBuildData(const PkLang::TmErrors& buildData, bool isClear = true);
+	void SetLexemsData(const PkLang::TmPkOutLexems& lexems);
 	
-	void SetTrmData(const TvOutLexems& data, bool isClear = true);
-	void SetConData(const TvOutConst& data, bool isClear = true);
-	void SetVarData(const TmOutIdent& data, bool isClear = true);
+	void SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear = true);
+	void SetConstData(const PkLang::TmPkOutConsts& data, bool isClear = true);
+	void SetVarData(const PkLang::TmPkOutIdns& data, bool isClear = true);
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

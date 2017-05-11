@@ -6,8 +6,7 @@
 #include <vector>
 #include <map>
 
-#include "cbtypes.h"
-#include "../Syntalyzer/Syntalyzer.h"
+#include "../PkLangDefs/PkLang.h"
 
 class foo
 {

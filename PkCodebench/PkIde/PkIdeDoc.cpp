@@ -17,6 +17,8 @@
 
 #include <propkey.h>
 
+#include "../Lexilyzer/PkLexFsm.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -203,11 +205,14 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 	CString sText;
 	pView->GetWindowTextW(sText);
 
-	CSyntalyzer syntalyzer(sText.GetBuffer());
+	PkLex::PkLexFsm lexilyser(sText.GetBuffer());
 
-	auto lexems = syntalyzer.Analyze();
+	PkLang::TmPkOutLexems lexems;
+	PkLang::TmPkOutConsts consts;
+	PkLang::TmPkOutIdns idents;
+	PkLang::TmErrors errors;
 
-	const auto& errors = syntalyzer.GetErrors();
+	lexilyser.Process(lexems, consts, idents, errors);
 	
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
@@ -216,7 +221,7 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 	if (errors.size() > 0)
 		pFrame->SetBuildData(errors);
 
-	CLexilyzer lexilyzer;
+	/*CLexilyzer lexilyzer;
 	lexilyzer.Analyze(lexems);
 
 	auto lexErrors = lexilyzer.GetErrors();
@@ -226,5 +231,5 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 	}
 
 	auto idnData = lexilyzer.GetIdns();
-	pFrame->SetVarData(idnData);
+	pFrame->SetVarData(idnData);*/
 }

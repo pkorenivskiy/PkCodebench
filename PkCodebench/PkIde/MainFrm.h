@@ -7,7 +7,7 @@
 #include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
-#include "cbtypes.h"
+#include "../PkLangDefs/PkLang.h"
 
 class CMainFrame : public CMDIFrameWndEx
 {
@@ -46,11 +46,11 @@ protected:  // control bar embedded members
 
 public:	
 	void SetBuildData(const std::vector<std::wstring>& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
-	void SetBuildData(const TmErrors& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
-	void SetLexemsData(const TvLexLines& lexems) { m_wndOutput.SetLexemsData(lexems); }
-	void SetTrmData(const TvOutLexems& data, bool isClear = true) { m_wndOutput.SetTrmData(data, isClear); };
-	void SetConData(const TvOutConst& data, bool isClear = true) { m_wndOutput.SetConData(data, isClear); };
-	void SetVarData(const TmOutIdent& data, bool isClear = true) { m_wndOutput.SetVarData(data, isClear); };
+	void SetBuildData(const PkLang::TmErrors& buildData, bool isClear = true) { m_wndOutput.SetBuildData(buildData, isClear); };
+	void SetLexemsData(const PkLang::TmPkOutLexems& lexems) { m_wndOutput.SetLexemsData(lexems); }
+	void SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear = true) { m_wndOutput.SetTrmData(data, isClear); };
+	void SetConstData(const PkLang::TmPkOutConsts& data, bool isClear = true) { m_wndOutput.SetConstData(data, isClear); };
+	void SetVarData(const PkLang::TmPkOutIdns& data, bool isClear = true) { m_wndOutput.SetVarData(data, isClear); };
 
 
 // Generated message map functions
