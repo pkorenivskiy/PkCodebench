@@ -253,14 +253,6 @@
     <Image Include="res\Toolbar256.bmp" />
     <Image Include="UserImages.bmp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lexilyzer\Lexilyzer.vcxproj">
-      <Project>{0f122d9a-857e-49cf-9234-71e35894d48b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Syntalyzer\Syntalizer.vcxproj">
-      <Project>{82a4cb25-6ab5-4092-a346-940362d77005}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
