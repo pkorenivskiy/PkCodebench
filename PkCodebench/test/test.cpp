@@ -4,6 +4,7 @@
 #include "stdafx.h"
 
 #include <vector>
+#include <map>
 
 #include "cbtypes.h"
 #include "../Syntalyzer/Syntalyzer.h"
@@ -12,10 +13,50 @@ class foo
 {
 public:
 	size_t n;
+	bool operator < (const foo& x) const { return false; }
 };
+
+template <typename T>
+class bar
+{
+public:
+	bar()
+	{
+	}
+
+	~bar()
+	{
+	}
+
+private:
+};
+
+class class2 : public bar<foo>
+{
+public:
+
+
+private:
+
+};
+
+
 
 int main()
 {
+	std::map<foo, int> myMap;
+	
+	foo foo1, foo2;
+	myMap[foo1] = 10;
+	myMap[foo2] = 10;
+
+
+	int aaa(5);
+
+	aaa++;
+
+	return 0;
+
 	CSyntalyzer syntalizer;
 	
 	std::vector<foo> vfoo;
