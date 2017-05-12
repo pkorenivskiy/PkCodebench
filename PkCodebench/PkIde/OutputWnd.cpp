@@ -197,12 +197,13 @@ void COutputWnd::SetBuildData(const std::vector<std::wstring>& buildData, bool i
 
 void COutputWnd::SetLexemsData(const PkLang::TmPkOutLexems& lexems)
 {
+	m_wndOutLexems.ResetContent();
 	for (auto it : lexems)
 	{
 		std::wstring sOut = L"";
 		for (auto itLex : it.second)
 		{
-			sOut += L"\"" + itLex.Name + L"\" ";
+			sOut += L"\"" + itLex.Name + L"\"...";
 		}
 		m_wndOutLexems.AddString(sOut.c_str());
 	}

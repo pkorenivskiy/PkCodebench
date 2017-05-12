@@ -7,14 +7,12 @@ namespace PkLex
 	enum PkLexFsmStates
 	{
 		START = 1,
-		TRM,
-		IDN,
-		CON,
-		OPR,
 		LEX,
-		ERR,
+		CON,
+		TRM,
 		NLN,
-		END
+		LOG,
+		ERR
 	};
 
 

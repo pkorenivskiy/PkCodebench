@@ -95,7 +95,7 @@ BOOL CPkIdeApp::InitInstance()
 	// Change the registry key under which our settings are stored
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	SetRegistryKey(_T("PAKO Applications"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
 
@@ -142,6 +142,8 @@ BOOL CPkIdeApp::InitInstance()
 	EnableShellOpen();
 	RegisterShellFileTypes(TRUE);
 
+	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew)
+		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 
 	// Dispatch commands specified on the command line.  Will return FALSE if
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
@@ -150,6 +152,19 @@ BOOL CPkIdeApp::InitInstance()
 	// The main window has been initialized, so show and update it
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
+
+	//PAKO
+	if (m_pRecentFileList != NULL)
+	{
+		CString strMRU = (*m_pRecentFileList)[0];
+		if (!strMRU.IsEmpty())
+		{
+			int x = m_pDocManager->GetOpenDocumentCount();
+			OpenDocumentFile(strMRU);
+			x = m_pDocManager->GetOpenDocumentCount();
+			x++;
+		}
+	}
 
 	return TRUE;
 }

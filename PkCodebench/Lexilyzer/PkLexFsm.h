@@ -20,42 +20,72 @@ namespace PkLex
 			, m_sText(text)			
 		{
 			LOG("Lexilyser init.");
-			AddState(TRM);
-			AddState(IDN);			
-			AddState(CON);
 			AddState(LEX);
-			AddState(ERR);
+			AddState(CON);
+			AddState(TRM);
 			AddState(NLN);
+			AddState(LOG);
+			AddState(ERR);
 
 			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::CH,		PkLexFsmStates::LEX);
 			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::DG,		PkLexFsmStates::CON);
 			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::WS,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::LG,		PkLexFsmStates::LOG);
+			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::SC,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::MN,		PkLexFsmStates::TRM);
+			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::EQ,		PkLexFsmStates::LOG);
+			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::TR,		PkLexFsmStates::TRM);
 			AddTransition(PkLexFsmStates::START,	PkLexFsmEvents::NL,		PkLexFsmStates::NLN);
-
-			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::CH,		PkLexFsmStates::START);
-			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::DG,		PkLexFsmStates::START);
-			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
-			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::NL,		PkLexFsmStates::NLN);
-
-			AddTransition(PkLexFsmStates::IDN,		PkLexFsmEvents::CH,		PkLexFsmStates::IDN);
-			AddTransition(PkLexFsmStates::IDN,		PkLexFsmEvents::DG,		PkLexFsmStates::IDN);
-			AddTransition(PkLexFsmStates::IDN,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
-			AddTransition(PkLexFsmStates::IDN,		PkLexFsmEvents::NL,		PkLexFsmStates::NLN);
-
-			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::CH,		PkLexFsmStates::ERR);
-			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::DG,		PkLexFsmStates::CON);
-			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
-			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::NL,		PkLexFsmStates::NLN);
 
 			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::CH,		PkLexFsmStates::LEX);
 			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::DG,		PkLexFsmStates::LEX);
 			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
-			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::NL,		PkLexFsmStates::NLN);
+			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::LG,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::SC,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::MN,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::EQ,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::TR,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LEX,		PkLexFsmEvents::NL,		PkLexFsmStates::START);
+
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::CH,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::DG,		PkLexFsmStates::CON);
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::LG,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::SC,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::MN,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::EQ,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::TR,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::CON,		PkLexFsmEvents::NL,		PkLexFsmStates::START);
+
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::CH,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::DG,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::LG,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::SC,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::MN,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::EQ,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::TR,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::NL,		PkLexFsmStates::START);
 
 			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::CH,		PkLexFsmStates::START);
 			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::DG,		PkLexFsmStates::START);
 			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::LG,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::SC,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::MN,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::EQ,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::TR,		PkLexFsmStates::START);
 			AddTransition(PkLexFsmStates::NLN,		PkLexFsmEvents::NL,		PkLexFsmStates::NLN);
+
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::CH,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::DG,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::LG,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::SC,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::MN,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::EQ,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::TR,		PkLexFsmStates::START);
+			AddTransition(PkLexFsmStates::LOG,		PkLexFsmEvents::NL,		PkLexFsmStates::ERR);
 		}
 
 	public:
@@ -68,12 +98,11 @@ namespace PkLex
 				AcceptEvent(PkLexFsmEvent(*itCh));
 				if (GetCurrentState() == PkLexFsmStates::START)
 				{
-					//if (lexema.find_first_of(L'\r') != std::wstring::npos 
-					//	|| lexema.find_first_of(L'\n') != std::wstring::npos) // new line lexema
 					if (GetPreviosState() == PkLexFsmStates::NLN)
 					{
 						nLine++;
 						lexema.erase();
+						itCh--;
 					}
 					else
 					{
@@ -85,13 +114,14 @@ namespace PkLex
 						lexems[nLine].push_back(outLex);
 
 						lexema.erase();
-					}					
+					}
 				}
 				else if (GetCurrentState() == PkLexFsmStates::ERR)
 				{
 					errors[nLine].push_back(L"Error.");					
 					Reset(PkLexFsmStates::START);
 					while (std::iswspace(*(++itCh)));
+					itCh--;
 				}
 				else
 				{
@@ -99,7 +129,7 @@ namespace PkLex
 				}
 			}
 
-			if (lexema.empty() == false)
+			if (lexema.empty() == false && GetCurrentState() == PkLexFsmStates::START && GetPreviosState() != PkLexFsmStates::NLN)
 			{
 				LOG(std::string(lexema.begin(), lexema.end()));
 
