@@ -2,6 +2,10 @@
 
 #include <string>
 
+#include "PkLexFsmEvent.h"
+
+#include "../PkFSM/PkMachineState.h"
+
 namespace PkLex
 {
 	enum PkLexFsmStates
@@ -15,29 +19,48 @@ namespace PkLex
 		ERR
 	};
 
-
-
-	class PkLexFsmBaseState
+	class PkLexFsmState : public PkFSM::PkMachineState<PkLexFsmStates, PkLexFsmEvent>
 	{
 	public:
-		PkLexFsmBaseState(const PkLexFsmBaseState&) {} 
-
-		PkLexFsmBaseState(const std::string& name)
-			: m_sName(name)
+		PkLexFsmState(const PkLexFsmState& other)
+			: PkFSM::PkMachineState<PkLexFsmStates, PkLexFsmEvent>(other)
+			//, m_bComplete(false)
+			//, m_sLexema(L"")
 		{ }
 
-		const std::string& GetName() const { return m_sName; }
+		PkLexFsmState(const PkLexFsmStates& state)
+			: PkFSM::PkMachineState<PkLexFsmStates, PkLexFsmEvent>(state)
+			//, m_bComplete(false)
+			//, m_sLexema(L"")
+		{ }
 
-	public:
-		virtual const bool operator == (const PkLexFsmBaseState& x) const
+		PkLexFsmState()
+			: PkFSM::PkMachineState<PkLexFsmStates, PkLexFsmEvent>(START)
+			//, m_bComplete(false)
+			//, m_sLexema(L"")
 		{
-			return (m_sName.compare(x.GetName()) == 0);
+			setState(START);
 		}
 
+	/*public:
+		bool IsComplete() const { return m_bComplete; }
+
 	public:
-		virtual ~PkLexFsmBaseState() {};
+		virtual void OnEnter(PkMachineState& from, const PkLexFsmEvent& event) override
+		{
+			m_sLexema.erase();
+			m_bComplete = false;
+		}
+
+		virtual void OnExit(const PkLexFsmEvent& event, PkMachineState& to) override
+		{
+			m_sLexema += event;
+			if (*this != to)
+				m_bComplete = true;
+		}
 
 	private:
-		std::string m_sName;
+		std::wstring m_sLexema;
+		bool m_bComplete;*/
 	};
 }

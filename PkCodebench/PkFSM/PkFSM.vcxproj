@@ -128,7 +128,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="PkFiniteStateMachine.h" />
+    <ClInclude Include="PkMachineState.h" />
+    <ClInclude Include="PkStateMachineFunctors.h" />
     <ClInclude Include="PkStateMachineException.h" />
+    <ClInclude Include="PkStateMachineStrategy.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>

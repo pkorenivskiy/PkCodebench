@@ -7,13 +7,14 @@
 #include <memory>
 
 #include "PkStateMachineException.h"
+#include "PkStateMachineFunctors.h"
 #include "../PkLogger/PkLoggerBase.h"
 
 #define LOG(x) if (m_pLogger != nullptr) m_pLogger->Log(x)
 
 namespace PkFSM
 {
-	template <class PkMachineState, class PkMachineEvent>
+	template <class PkMachineState, class PkMachineEvent, class PkFunctor = PkEmptyFunctor<PkMachineState, PkMachineEvent>>
 	class PkFiniteStateMachine
 	{
 	public:
@@ -79,13 +80,16 @@ namespace PkFSM
 				throw PkStateMachineException("No transition for this event from current state.");
 
 			auto nextState = eventIt->second.find(m_CurrentState)->second; 
+
+			m_Functor(m_CurrentState, event, nextState);
+
 			if (nextState != m_CurrentState)
 			{
 				char lpszMsg[256];
-				sprintf_s(lpszMsg, "Change state from %d to %d", m_CurrentState, nextState);
+				sprintf_s(lpszMsg, "Change state from %d to %d", (int)m_CurrentState, (int)nextState);
 				LOG(lpszMsg);
 				m_PrevState = m_CurrentState;
-				m_CurrentState = nextState;
+				m_CurrentState = nextState;				
 			}
 		}
 
@@ -117,7 +121,8 @@ namespace PkFSM
 		StateType m_CurrentState;
 		StateType m_PrevState;
 		VofStates m_vStates;
-		VofEvents  m_vEvents;
+		VofEvents m_vEvents;
+		PkFunctor m_Functor;
 		TableTransition m_tblTrans; // A table of transitions between states
 	};
 }

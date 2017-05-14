@@ -26,6 +26,7 @@ namespace PkLex
 	public:
 		PkLexFsmEvent(const wchar_t& ch)
 			: m_Type(UNK)
+			, m_Char(ch)
 		{
 			if (std::iswalpha(ch) || ch == L'_')
 				m_Type = CH;
@@ -49,9 +50,18 @@ namespace PkLex
 				//m_Type = CH;
 		}
 
-		PkLexFsmEvent(const PkLexFsmEvent&) 
+		PkLexFsmEvent(const PkLexFsmEvents& event)
+			: m_Type(event)
 		{
+
 		}
+
+		PkLexFsmEvent(const PkLexFsmEvent& other) 
+		{
+			m_Type = other.m_Type;
+			m_Char = other.m_Char;
+		}
+
 		virtual ~PkLexFsmEvent() {}
 
 	public:
@@ -62,7 +72,12 @@ namespace PkLex
 
 		operator const PkLexFsmEvents () const 
 		{ 
-			return m_Type; 
+			return m_Type;
+		}
+
+		operator const wchar_t() const
+		{
+			return m_Char;
 		}
 
 		const PkLexFsmEvent& operator = (PkLexFsmEvents e)
@@ -70,6 +85,13 @@ namespace PkLex
 			m_Type = e;
 			return *this;
 		}
+
+		const bool operator < (const PkLexFsmEvent e) const
+		{
+			return m_Type < e.m_Type;
+		}
+
+	
 
 	private:
 		const PkLexFsmEvents GetType() const
@@ -79,6 +101,8 @@ namespace PkLex
 
 	private:
 		PkLexFsmEvents m_Type;
+		wchar_t m_Char;
+		std::wstring m_sLexema;
 	};
 
 }

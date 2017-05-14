@@ -12,14 +12,14 @@
 
 namespace PkLex
 {
-	class PkLexFsm : public PkFSM::PkFiniteStateMachine<PkLexFsmStates, PkLexFsmEvents>
+	class PkLexFsm : public PkFSM::PkFiniteStateMachine<PkLexFsmState, PkLexFsmEvent, PkFSM::PkOnMoveFunctor<PkLexFsmState, PkLexFsmEvent>>
 	{
 	public:
 		PkLexFsm(const std::wstring& text)
-			: PkFiniteStateMachine<PkLexFsmStates, PkLexFsmEvents>(START)
+			: PkFiniteStateMachine<PkLexFsmState, PkLexFsmEvent, PkFSM::PkOnMoveFunctor<PkLexFsmState, PkLexFsmEvent>>(PkLexFsmStates::START)
 			, m_sText(text)			
 		{
-			LOG("Lexilyser init.");
+			LOG("Lexilyzer init.");
 			AddState(LEX);
 			AddState(CON);
 			AddState(TRM);
@@ -96,9 +96,9 @@ namespace PkLex
 			for (auto& itCh = m_sText.begin(); itCh != m_sText.end(); ++itCh)
 			{
 				AcceptEvent(PkLexFsmEvent(*itCh));
-				if (GetCurrentState() == PkLexFsmStates::START)
+				if (GetCurrentState().GetState() == PkLexFsmStates::START)
 				{
-					if (GetPreviosState() == PkLexFsmStates::NLN)
+					if (GetPreviosState().GetState() == PkLexFsmStates::NLN)
 					{
 						nLine++;
 						lexema.erase();
@@ -116,7 +116,7 @@ namespace PkLex
 						lexema.erase();
 					}
 				}
-				else if (GetCurrentState() == PkLexFsmStates::ERR)
+				else if (GetCurrentState().GetState() == PkLexFsmStates::ERR)
 				{
 					errors[nLine].push_back(L"Error.");					
 					Reset(PkLexFsmStates::START);
@@ -129,7 +129,7 @@ namespace PkLex
 				}
 			}
 
-			if (lexema.empty() == false && GetCurrentState() == PkLexFsmStates::START && GetPreviosState() != PkLexFsmStates::NLN)
+			if (lexema.empty() == false && GetCurrentState().GetState() == PkLexFsmStates::START && GetPreviosState() != PkLexFsmStates::NLN)
 			{
 				LOG(std::string(lexema.begin(), lexema.end()));
 
