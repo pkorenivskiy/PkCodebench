@@ -72,6 +72,8 @@ public:
 	void SetConstData(const PkLang::TmPkOutConsts& data, bool isClear = true);
 	void SetVarData(const PkLang::TmPkOutIdns& data, bool isClear = true);
 
+	COutputList* GetBuildOutWnd() { return &m_wndOutputBuild; }
+
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSize(UINT nType, int cx, int cy);

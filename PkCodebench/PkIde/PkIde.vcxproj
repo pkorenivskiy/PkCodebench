@@ -193,6 +193,7 @@
     <ClInclude Include="PkIde.h" />
     <ClInclude Include="PkIdeDoc.h" />
     <ClInclude Include="PkIdeView.h" />
+    <ClInclude Include="PkLogger.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="PkIde.cpp" />
     <ClCompile Include="PkIdeDoc.cpp" />
     <ClCompile Include="PkIdeView.cpp" />
+    <ClCompile Include="PkLogger.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -52,6 +52,7 @@ public:
 	void SetConstData(const PkLang::TmPkOutConsts& data, bool isClear = true) { m_wndOutput.SetConstData(data, isClear); };
 	void SetVarData(const PkLang::TmPkOutIdns& data, bool isClear = true) { m_wndOutput.SetVarData(data, isClear); };
 
+	COutputList* GetBuildOutWnd() { return m_wndOutput.GetBuildOutWnd(); }
 
 // Generated message map functions
 protected:

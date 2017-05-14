@@ -18,6 +18,7 @@
 #include <propkey.h>
 
 #include "../Lexilyzer/PkLexFsm.h"
+#include "PkLogger.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -201,11 +202,12 @@ void CPkIdeDoc::Dump(CDumpContext& dc) const
 void CPkIdeDoc::OnBuildLexicalanalyze()
 {
 	auto pView = reinterpret_cast<CEditView*>(m_viewList.GetHead());
-	
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CString sText;
 	pView->GetWindowTextW(sText);
 
 	PkLex::PkLexFsm lexilyser(sText.GetBuffer());
+	lexilyser.SetLogger(std::shared_ptr<CPkLogger>(new CPkLogger(pFrame->GetBuildOutWnd())));
 
 	PkLang::TmPkOutLexems lexems;
 	PkLang::TmPkOutConsts consts;
@@ -214,12 +216,12 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 
 	lexilyser.Process(lexems, consts, idents, errors);
 	
-	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+	
 
 	pFrame->SetLexemsData(lexems);
 
 	if (errors.size() > 0)
-		pFrame->SetBuildData(errors);
+		pFrame->SetBuildData(errors, false);
 
 	/*CLexilyzer lexilyzer;
 	lexilyzer.Analyze(lexems);
