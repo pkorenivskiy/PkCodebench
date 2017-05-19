@@ -500,10 +500,11 @@ END
 STRINGTABLE
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
-    IDS_OUTTERM             "Terminals"
+    IDS_OUTTERM             "Table of Lexems"
     IDS_LEXEMS_TAB          "Lexems"
     IDS_OUTIDN              "IDN"
     IDS_OUTCON              "CON"
+    IDS_OUTERRS             "Error list"
 END
 
 STRINGTABLE

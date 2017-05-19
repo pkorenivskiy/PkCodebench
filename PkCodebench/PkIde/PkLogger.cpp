@@ -6,7 +6,7 @@
 CPkLogger::CPkLogger(COutputList* pEdit)
 	:m_pEdit(pEdit)
 {
-	pEdit->SetWindowText(L"");
+	pEdit->ResetContent();
 	pEdit->UpdateData(FALSE);
 }
 
@@ -22,6 +22,8 @@ void CPkLogger::Log(const std::string& msg)
 	text += "\n";
 
 	m_pEdit->AddString(std::wstring(text.begin(), text.end()).c_str());
-
 	m_pEdit->UpdateData(FALSE);
+
+	if (m_pEdit->GetCount() > 0)
+		m_pEdit->SetTopIndex(m_pEdit->GetCount() - 1);
 }

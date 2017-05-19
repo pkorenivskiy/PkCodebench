@@ -8,6 +8,7 @@
 #define IDS_LEXEMS_TAB                  102
 #define IDS_OUTIDN                      103
 #define IDS_OUTCON                      104
+#define IDS_OUTERRS                     105
 #define IDR_POPUP_EDIT                  119
 #define ID_STATUSBAR_PANE1              120
 #define ID_STATUSBAR_PANE2              121

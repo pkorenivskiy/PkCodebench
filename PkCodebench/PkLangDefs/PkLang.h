@@ -32,48 +32,52 @@ namespace PkLang
 		std::wstring Name;
 		PkLexemClasses Class;
 		size_t Id;
+	public:
+		const bool operator == (const std::wstring& str) const
+		{
+			return Name == str;
+		}
 	};
 
+	static size_t LEXEMINDEX = 1;
 	static const std::vector<PkLexema> LEXEMS =
 	{
-		{ PkLexema{ L"int", Keyword, 1 } },
-		{ PkLexema{ L"label", Keyword, 2 } },
+		{ PkLexema{ L"int",		Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"label",	Keyword,	LEXEMINDEX++ } },
 
-		{ PkLexema{ L"for", Keyword, 3 } },
-		{ PkLexema{ L"by", Keyword, 4 } },
-		{ PkLexema{ L"while", Keyword, 5 } },
-		{ PkLexema{ L"do", Keyword, 6 } },
+		{ PkLexema{ L"for",		Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"by",		Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"while",	Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"do",		Keyword,	LEXEMINDEX++ } },
 
-		{ PkLexema{ L"if", Keyword, 7 } },
-		{ PkLexema{ L"then", Keyword, 8 } },
-		{ PkLexema{ L"goto", Keyword, 9 } },
+		{ PkLexema{ L"if",		Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"then",	Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"goto",	Keyword,	LEXEMINDEX++ } },
 
-		{ PkLexema{ L"read", Keyword, 10 } },
-		{ PkLexema{ L"write", Keyword, 11 } },
+		{ PkLexema{ L"read",	Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"write",	Keyword,	LEXEMINDEX++ } },
 
-		{ PkLexema{ L"+", Operator, 12 } },
-		{ PkLexema{ L"-", Operator, 13 } },
-		{ PkLexema{ L"*", Operator, 14 } },
-		{ PkLexema{ L"/", Operator, 15 } },
-		{ PkLexema{ L"^", Operator, 16 } },
+		{ PkLexema{ L"+",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"-",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"*",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"/",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"^",		Operator,	LEXEMINDEX++ } },
 
-		{ PkLexema{ L"-", Operator, 17 } }, //unary minus
+		{ PkLexema{ L"-",		Operator,	LEXEMINDEX++ } }, //unary minus
 
-		{ PkLexema{ L"(", Delimiter, 18 } },
-		{ PkLexema{ L")", Delimiter, 19 } },
+		{ PkLexema{ L"(",		Delimiter,	LEXEMINDEX++ } },
+		{ PkLexema{ L")",		Delimiter,	LEXEMINDEX++ } },
 
-		{ PkLexema{ L">", Operator, 20 } },
-		{ PkLexema{ L"<", Operator, 21 } },
-		{ PkLexema{ L"=", Operator, 22 } },
-		{ PkLexema{ L"!=", Operator, 23 } },
-		{ PkLexema{ L">=", Operator, 24 } },
-		{ PkLexema{ L"<=", Operator, 25 } },
-		{ PkLexema{ L"!", Operator, 26 } },
+		{ PkLexema{ L">",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"<",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"=",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"!=",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L">=",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"<=",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"==",		Operator,	LEXEMINDEX++ } },
 
-		{ PkLexema{ L":", Keyword, 27 } },
-		{ PkLexema{ L",", Keyword, 28 } },
-		/*{ CPkLexema{ L"begin", Keyword, 29 } },
-		{ CPkLexema{ L"begin", Keyword, 30 } }*/
+		{ PkLexema{ L":",		Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L",",		Keyword,	LEXEMINDEX++ } }
 	};
 
 	struct PkOutLexema
@@ -98,9 +102,15 @@ namespace PkLang
 		size_t Index;
 		std::wstring Name;
 		PkIdnTypes Type;
+
+		const bool operator == (const std::wstring& str) const
+		{
+			return Name == str;
+		}
 	};
 
-	typedef std::map<size_t, PkOutIdn> TmPkOutIdns;
+	//typedef std::map<size_t, PkOutIdn> TmPkOutIdns;
+	typedef std::vector<PkOutIdn> TvPkOutIdtns;
 
 	struct PkOutConst
 	{

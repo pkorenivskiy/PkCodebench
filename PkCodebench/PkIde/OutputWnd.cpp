@@ -46,7 +46,8 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
 
 	if (!m_wndOutputBuild.Create(dwStyle, rectDummy, &m_wndTabs, 2) ||
-		!m_wndOutLexems.Create(dwStyle, rectDummy, &m_wndTabs, 3)/* ||
+		!m_wndOutLexems.Create(dwStyle, rectDummy, &m_wndTabs, 3) ||
+		!m_wndOutErrors.Create(dwStyle, rectDummy, &m_wndTabs, 4)/* ||
 		!m_wndOutputFind.Create(dwStyle, rectDummy, &m_wndTabs, 4)*/)
 	{
 		TRACE0("Failed to create output windows\n");
@@ -91,6 +92,10 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	bNameValid = strTabName.LoadString(IDS_OUTIDN);
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutVar, strTabName, (UINT)4);
+
+	bNameValid = strTabName.LoadString(IDS_OUTERRS);
+	ASSERT(bNameValid);
+	m_wndTabs.AddTab(&m_wndOutErrors, strTabName, (UINT)4);
 
 	// Fill output tabs with some dummy text (nothing magic here)
 	FillBuildWindow();
@@ -152,7 +157,7 @@ void COutputWnd::FillFindWindow()
 
 void COutputWnd::FillOutTable()
 {
-	m_wndOutTrm.InsertColumn(0, L"Index");
+	m_wndOutTrm.InsertColumn(0, L"Ln");
 	m_wndOutTrm.SetColumnWidth(0, 60);
 
 	m_wndOutTrm.InsertColumn(1, L"Name");
@@ -166,10 +171,10 @@ void COutputWnd::FillOutTable()
 
 	m_wndOutTrm.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
-	m_wndOutCon.InsertColumn(0, L"Name");
+	m_wndOutCon.InsertColumn(0, L"Index");
 	m_wndOutCon.SetColumnWidth(0, 60);
 
-	m_wndOutCon.InsertColumn(1, L"Index");
+	m_wndOutCon.InsertColumn(1, L"Value");
 	m_wndOutCon.SetColumnWidth(1, 60);
 
 	m_wndOutCon.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
@@ -212,32 +217,67 @@ void COutputWnd::SetLexemsData(const PkLang::TmPkOutLexems& lexems)
 void COutputWnd::SetBuildData(const PkLang::TmErrors& buildData, bool isClear)
 {
 	if (isClear)
+	{
 		m_wndOutputBuild.ResetContent();
+		m_wndOutErrors.ResetContent();
+	}
 
 	wchar_t lpwszErr[512];
 	for (auto& it : buildData)
 	{
 		for (auto& itErr : it.second)
 		{
-			swprintf_s(lpwszErr, 512, L"Line %d: %s", it.first, itErr.c_str());
-			m_wndOutputBuild.AddString(lpwszErr);
+			//swprintf_s(lpwszErr, 512, L"Line %d: %s", it.first, itErr.c_str());
+			m_wndOutputBuild.AddString(itErr.c_str());
+
+			m_wndOutErrors.AddString(itErr.c_str());
 		}
 	}
+
+	if (m_wndOutputBuild.GetCount() > 0)
+		m_wndOutputBuild.SetTopIndex(m_wndOutputBuild.GetCount() - 1);
 }
 
 void COutputWnd::SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutTrm.Clear();
+
+	wchar_t lptszBuf[10];
+	int nRow = 0;
+	for (const auto& itRow : data)
+	{
+		for (const auto& it : itRow.second)
+		{
+			_itow_s(it.Line, lptszBuf, 10, 10);
+			m_wndOutTrm.AddData(nRow, 0, lptszBuf);
+			m_wndOutTrm.AddData(nRow, 1, it.Name.c_str());
+			_itow_s(it.Id, lptszBuf, 10, 10);
+			m_wndOutTrm.AddData(nRow, 2, lptszBuf);
+			_itow_s(it.Index, lptszBuf, 10, 10);
+			m_wndOutTrm.AddData(nRow++, 3, lptszBuf);
+		}
+	}	
 }
 
 void COutputWnd::SetConstData(const PkLang::TmPkOutConsts& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutCon.Clear();
+
+	wchar_t lptszBuf[10];
+	int nRow = 0;
+	for (const auto& it : data)
+	{
+		_itow_s(it.first, lptszBuf,  10, 10);
+		m_wndOutCon.AddData(0, lptszBuf);
+
+		_itow_s(it.second.Value, lptszBuf, 10, 10);
+		m_wndOutCon.AddData(nRow++, 1, lptszBuf);
+	}
 }
 
-void COutputWnd::SetVarData(const PkLang::TmPkOutIdns& data, bool isClear)
+void COutputWnd::SetVarData(const PkLang::TvPkOutIdtns& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutVar.Clear();
@@ -246,12 +286,12 @@ void COutputWnd::SetVarData(const PkLang::TmPkOutIdns& data, bool isClear)
 	int nRow = 0;
 	for (auto it : data)
 	{
-		_itow_s(it.second.Index, lptszBuf, 10, 10);
+		_itow_s(it.Index, lptszBuf, 10, 10);
 		m_wndOutVar.AddData(nRow, 0, lptszBuf);
 
-		m_wndOutVar.AddData(nRow, 1, it.second.Name.c_str());
+		m_wndOutVar.AddData(nRow, 1, it.Name.c_str());
 
-		_itow_s(it.second.Type, lptszBuf, 10, 10);
+		_itow_s(it.Type, lptszBuf, 10, 10);
 		m_wndOutVar.AddData(nRow++, 2, lptszBuf);
 	}
 }

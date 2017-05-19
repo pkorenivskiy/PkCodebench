@@ -44,6 +44,7 @@ protected:
 
 	COutputList m_wndOutputBuild;
 	COutputList m_wndOutLexems;
+	COutputList m_wndOutErrors;
 	//COutputList m_wndOutputDebug;
 	//COutputList m_wndOutputFind;
 
@@ -70,7 +71,7 @@ public:
 	
 	void SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear = true);
 	void SetConstData(const PkLang::TmPkOutConsts& data, bool isClear = true);
-	void SetVarData(const PkLang::TmPkOutIdns& data, bool isClear = true);
+	void SetVarData(const PkLang::TvPkOutIdtns& data, bool isClear = true);
 
 	COutputList* GetBuildOutWnd() { return &m_wndOutputBuild; }
 

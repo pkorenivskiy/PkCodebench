@@ -11,22 +11,25 @@ namespace PkLex
 	enum PkLexFsmStates
 	{
 		START = 1,
+		END,
 		LEX,
 		CON,
 		TRM,
 		NLN,
 		LOG,
+		LOG2,
+		CMT, //comment //
 		ERR
 	};
 
 	class PkLexFsmState : public PkFSM::PkMachineState<PkLexFsmStates, PkLexFsmEvent>
 	{
 	public:
-		PkLexFsmState(const PkLexFsmState& other)
-			: PkFSM::PkMachineState<PkLexFsmStates, PkLexFsmEvent>(other)
-			//, m_bComplete(false)
-			//, m_sLexema(L"")
-		{ }
+		//PkLexFsmState(const PkLexFsmState& other)
+		//	: PkFSM::PkMachineState<PkLexFsmStates, PkLexFsmEvent>(other)
+		//	//, m_bComplete(false)
+		//	//, m_sLexema(L"")
+		//{ }
 
 		PkLexFsmState(const PkLexFsmStates& state)
 			: PkFSM::PkMachineState<PkLexFsmStates, PkLexFsmEvent>(state)

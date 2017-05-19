@@ -68,7 +68,7 @@ namespace PkFSM
 			m_tblTrans[event][fromState] = toState;
 		}
 
-		void AcceptEvent(const EventType& event)
+		const StateType& AcceptEvent(const EventType& event)
 		{
 			const auto& eventIt = m_tblTrans.find(event);
 
@@ -83,14 +83,16 @@ namespace PkFSM
 
 			m_Functor(m_CurrentState, event, nextState);
 
-			if (nextState != m_CurrentState)
+			//if (nextState != m_CurrentState)
 			{
 				char lpszMsg[256];
 				sprintf_s(lpszMsg, "Change state from %d to %d", (int)m_CurrentState, (int)nextState);
-				LOG(lpszMsg);
-				m_PrevState = m_CurrentState;
-				m_CurrentState = nextState;				
+				LOG(lpszMsg);				
 			}
+			m_PrevState = m_CurrentState;
+			m_CurrentState = nextState;
+
+			return m_CurrentState;
 		}
 
 		const StateType& GetCurrentState() const 

@@ -8,10 +8,10 @@ namespace PkFSM
 	class PkMachineState
 	{
 	public:
-		PkMachineState(const PkMachineState& other) 
+		/*PkMachineState(const PkMachineState& other) 
 		{
 			m_state = other.GetState();
-		}
+		}*/
 
 		PkMachineState(const States& state)
 			: m_state(state)

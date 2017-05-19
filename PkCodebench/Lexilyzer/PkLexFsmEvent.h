@@ -56,11 +56,11 @@ namespace PkLex
 
 		}
 
-		PkLexFsmEvent(const PkLexFsmEvent& other) 
+		/*PkLexFsmEvent(const PkLexFsmEvent& other) 
 		{
 			m_Type = other.m_Type;
 			m_Char = other.m_Char;
-		}
+		}*/
 
 		virtual ~PkLexFsmEvent() {}
 
