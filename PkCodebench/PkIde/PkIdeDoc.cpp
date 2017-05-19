@@ -211,7 +211,7 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 
 	PkLang::TmPkOutLexems lexems;
 	PkLang::TmPkOutConsts consts;
-	PkLang::TvPkOutIdtns idents;
+	PkLang::TvPkOutIdnts idents;
 	PkLang::TmErrors errors;
 
 	lexilyser.Process(lexems, consts, idents, errors);

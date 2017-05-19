@@ -222,7 +222,6 @@ void COutputWnd::SetBuildData(const PkLang::TmErrors& buildData, bool isClear)
 		m_wndOutErrors.ResetContent();
 	}
 
-	wchar_t lpwszErr[512];
 	for (auto& it : buildData)
 	{
 		for (auto& itErr : it.second)
@@ -277,7 +276,7 @@ void COutputWnd::SetConstData(const PkLang::TmPkOutConsts& data, bool isClear)
 	}
 }
 
-void COutputWnd::SetVarData(const PkLang::TvPkOutIdtns& data, bool isClear)
+void COutputWnd::SetVarData(const PkLang::TvPkOutIdnts& data, bool isClear)
 {
 	if (isClear)
 		m_wndOutVar.Clear();

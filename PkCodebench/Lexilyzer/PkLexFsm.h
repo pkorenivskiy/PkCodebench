@@ -111,7 +111,7 @@ namespace PkLex
 		}
 
 	public:
-		bool Process(PkLang::TmPkOutLexems& lexems, PkLang::TmPkOutConsts& consts, PkLang::TvPkOutIdtns& idents, PkLang::TmErrors& errors)
+		bool Process(PkLang::TmPkOutLexems& lexems, PkLang::TmPkOutConsts& consts, PkLang::TvPkOutIdnts& idents, PkLang::TmErrors& errors)
 		{
 			size_t nLine = 1;
 			size_t nIndex = 1;
@@ -157,7 +157,7 @@ namespace PkLex
 							PkLang::PkOutIdn ident;
 							ident.Index = nIndex;
 							ident.Name = lexema;
-							ident.Type = lexema.back() == L':' ? PkLang::PkIdnTypes::Lbl : PkLang::PkIdnTypes::Int; // dirty hack
+							ident.Type = PkLang::PkIdnTypes::Undef; // lexema.back() == L':' ? PkLang::PkIdnTypes::Lbl : PkLang::PkIdnTypes::Int; // dirty hack
 							idents.push_back(ident);
 						}
 					}

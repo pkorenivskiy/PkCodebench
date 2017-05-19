@@ -5,7 +5,7 @@
 #include <string>
 
 namespace PkLang
-{
+{	
 	enum PkLexemClasses
 	{
 		Keyword,
@@ -23,7 +23,8 @@ namespace PkLang
 	enum PkIdnTypes
 	{
 		Int,
-		Lbl
+		Lbl,
+		Undef
 	};
 
 	struct PkLexema
@@ -107,10 +108,15 @@ namespace PkLang
 		{
 			return Name == str;
 		}
+
+		const bool operator == (const size_t& idx) const
+		{
+			return Index == idx;
+		}
 	};
 
 	//typedef std::map<size_t, PkOutIdn> TmPkOutIdns;
-	typedef std::vector<PkOutIdn> TvPkOutIdtns;
+	typedef std::vector<PkOutIdn> TvPkOutIdnts;
 
 	struct PkOutConst
 	{
