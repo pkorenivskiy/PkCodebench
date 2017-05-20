@@ -237,6 +237,11 @@ void COutputWnd::SetBuildData(const PkLang::TmErrors& buildData, bool isClear)
 		m_wndOutputBuild.SetTopIndex(m_wndOutputBuild.GetCount() - 1);
 }
 
+void COutputWnd::ClearErrors()
+{
+	m_wndOutErrors.ResetContent();
+}
+
 void COutputWnd::SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear)
 {
 	if (isClear)

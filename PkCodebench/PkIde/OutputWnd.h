@@ -67,11 +67,13 @@ public:
 
 	void SetBuildData(const std::vector<std::wstring>& buildData, bool isClear = true);
 	void SetBuildData(const PkLang::TmErrors& buildData, bool isClear = true);
+	void ClearErrors();
+
 	void SetLexemsData(const PkLang::TmPkOutLexems& lexems);
 	
 	void SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear = true);
 	void SetConstData(const PkLang::TmPkOutConsts& data, bool isClear = true);
-	void SetVarData(const PkLang::TvPkOutIdnts& data, bool isClear = true);
+	void SetVarData(const PkLang::TvPkOutIdnts& data, bool isClear = true);	
 
 	COutputList* GetBuildOutWnd() { return &m_wndOutputBuild; }
 

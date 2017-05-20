@@ -225,6 +225,9 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 
 	if (errors.size() > 0)
 		pFrame->SetBuildData(errors, false);
+	else
+		pFrame->ClearErrors();
+
 
 	/*CLexilyzer lexilyzer;
 	lexilyzer.Analyze(lexems);
