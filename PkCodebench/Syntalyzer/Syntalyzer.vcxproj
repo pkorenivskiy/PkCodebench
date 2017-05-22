@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="PkBaseAnalyzer.h" />
     <ClInclude Include="PkDeclAnalyzer.h" />
+    <ClInclude Include="PkExprAnalyzer.h" />
     <ClInclude Include="PkMathExprAnalyzer.h" />
     <ClInclude Include="PkSynFsm.h" />
     <ClInclude Include="PkSynFsmEvent.h" />
@@ -140,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="PkBaseAnalyzer.cpp" />
     <ClCompile Include="PkDeclAnalyzer.cpp" />
+    <ClCompile Include="PkExprAnalyzer.cpp" />
     <ClCompile Include="PkMathExprAnalyzer.cpp" />
     <ClCompile Include="PkSyntalyzer.cpp" />
     <ClCompile Include="stdafx.cpp">

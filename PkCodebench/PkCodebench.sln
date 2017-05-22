@@ -15,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{B91ECEE5-2A28-4402-AB71-6C70A5FE38DF}"
 	ProjectSection(SolutionItems) = preProject
 		lang.txt = lang.txt
+		pklang.txt = pklang.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lexilyzer", "Lexilyzer\Lexilyzer.vcxproj", "{B9D6BC8A-106B-47CF-B2C7-5BF706C3C66E}"

@@ -6,6 +6,7 @@
 
 #include "PkBaseAnalyzer.h"
 #include "PkDeclAnalyzer.h"
+#include "PkExprAnalyzer.h"
 
 PkSyntalyzer::PkSyntalyzer()
 {
@@ -28,7 +29,12 @@ bool PkSyntalyzer::Analyze(PkLang::TmPkOutLexems& lexems, PkLang::TvPkOutIdnts& 
 		{
 			if (line.second[0].Id == 0)
 				analyzer = std::shared_ptr<PkBaseAnalyzer>(new PkDeclAnalyzer());
-
+			else if (line.second[0].Id == 10)
+				; // 10 read
+			else if (line.second[0].Id == 11)
+				; // 11 write
+			else if (line.second[0].Class == PkLang::Variable)
+				analyzer = std::shared_ptr<PkBaseAnalyzer>(new PkExprAnalyzer());
 
 
 			bool synChk = analyzer->Analyze(line.second, idents, consts, errors);

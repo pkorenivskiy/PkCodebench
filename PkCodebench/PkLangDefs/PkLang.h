@@ -43,20 +43,20 @@ namespace PkLang
 	static size_t LEXEMINDEX = 1;
 	static const std::vector<PkLexema> LEXEMS =
 	{
-		{ PkLexema{ L"int",		Keyword,	LEXEMINDEX++ } },
-		{ PkLexema{ L"label",	Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"int",		Keyword,	LEXEMINDEX++ } }, //1
+		{ PkLexema{ L"label",	Keyword,	LEXEMINDEX++ } }, //2
 
-		{ PkLexema{ L"for",		Keyword,	LEXEMINDEX++ } },
-		{ PkLexema{ L"by",		Keyword,	LEXEMINDEX++ } },
-		{ PkLexema{ L"while",	Keyword,	LEXEMINDEX++ } },
-		{ PkLexema{ L"do",		Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"for",		Keyword,	LEXEMINDEX++ } }, //3
+		{ PkLexema{ L"by",		Keyword,	LEXEMINDEX++ } }, //4
+		{ PkLexema{ L"while",	Keyword,	LEXEMINDEX++ } }, //5
+		{ PkLexema{ L"do",		Keyword,	LEXEMINDEX++ } }, //6
 
-		{ PkLexema{ L"if",		Keyword,	LEXEMINDEX++ } },
-		{ PkLexema{ L"then",	Keyword,	LEXEMINDEX++ } },
-		{ PkLexema{ L"goto",	Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"if",		Keyword,	LEXEMINDEX++ } }, //7
+		{ PkLexema{ L"then",	Keyword,	LEXEMINDEX++ } }, //8
+		{ PkLexema{ L"goto",	Keyword,	LEXEMINDEX++ } }, //9
 
-		{ PkLexema{ L"read",	Keyword,	LEXEMINDEX++ } },
-		{ PkLexema{ L"write",	Keyword,	LEXEMINDEX++ } },
+		{ PkLexema{ L"read",	Keyword,	LEXEMINDEX++ } }, //10
+		{ PkLexema{ L"write",	Keyword,	LEXEMINDEX++ } }, //11
 
 		{ PkLexema{ L"+",		Operator,	LEXEMINDEX++ } },
 		{ PkLexema{ L"-",		Operator,	LEXEMINDEX++ } },

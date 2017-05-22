@@ -1,0 +1,33 @@
+<prog> ::= <declare> <list_oper>
+
+<declare> ::= <type> <list_id> <nl>
+<type> ::= int | label 
+<list_id> ::= <id> | <list_id>, <id> 
+<id> ::= <char> | <id> <char> | <id> <dig> 
+
+<list_oper> ::= <oper> | <list_oper> <nl>
+<oper> ::= <assign> | <read> | <write> | <if> | <goto> | <loop>
+
+<assign> ::= <id> = <id> | <math> | <const>
+<math> ::= <term> | <math> + <term> | <math> - <term> | -<term>
+<term> ::= <mult> | <term> * <mult> | <term> / <mult>
+<mult> ::= <math_exp> | <mult> ^ <math_exp>
+<math_exp> ::= (<math>) | <dig>
+
+<const> ::= <dig> | -<dig>
+
+<read> ::= read(<list_id>)
+<write ::= write(<list_id>)
+<goto> ::= goto <label>
+
+<if> ::= <lexpr> then goto <label>
+
+<lexpr> ::= <math> <lterm> <math>
+
+<loop> ::= for <id>=<expr> by <math> while <lexpr> do <oper>
+
+<label> ::= <id>:
+<nl> ::= \r\n
+<char> ::= à | b | . | z | A | B | . | Z | _ 
+<dig>  ::= 0 | 1 | . | 9
+<lterm> ::= == | < | > | <= | >= | !=
