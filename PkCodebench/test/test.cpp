@@ -8,6 +8,8 @@
 
 #include "../PkLangDefs/PkLang.h"
 
+#include "../Syntalyzer/PkSyntalyzer.h"
+
 class foo
 {
 public:
@@ -56,7 +58,7 @@ int main()
 
 	return 0;
 
-	CSyntalyzer syntalizer;
+	//PkSyntalyzer syntalizer;
 	
 	std::vector<foo> vfoo;
 	
@@ -72,9 +74,6 @@ int main()
 	{
 		char* a = new char[45];
 	}
-	
-	auto errors = syntalizer.GetErrors();
-
 
 	_CrtDumpMemoryLeaks();
 

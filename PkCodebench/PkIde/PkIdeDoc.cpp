@@ -20,6 +20,8 @@
 #include "../Lexilyzer/PkLexFsm.h"
 #include "PkLogger.h"
 
+#include "../Syntalyzer/PkSyntalyzer.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -205,6 +207,7 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	CString sText;
 	pView->GetWindowTextW(sText);
+	pFrame->ClearErrors();
 
 	PkLex::PkLexFsm lexilyser(sText.GetBuffer());
 	lexilyser.SetLogger(std::shared_ptr<CPkLogger>(new CPkLogger(pFrame->GetBuildOutWnd())));
@@ -216,28 +219,27 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 
 	lexilyser.Process(lexems, consts, idents, errors);
 	
-	
-
 	pFrame->SetLexemsData(lexems);
 	pFrame->SetTrmData(lexems);
 	pFrame->SetConstData(consts);
 	pFrame->SetVarData(idents);
 
 	if (errors.size() > 0)
-		pFrame->SetBuildData(errors, false);
-	else
-		pFrame->ClearErrors();
-
-
-	/*CLexilyzer lexilyzer;
-	lexilyzer.Analyze(lexems);
-
-	auto lexErrors = lexilyzer.GetErrors();
-	if (lexErrors.size() > 0)
 	{
-		pFrame->SetBuildData(lexErrors);
+		pFrame->SetBuildData(errors, false);
+		return;
 	}
+	else
+	{
+		pFrame->ClearErrors(); 
+		
+		PkSyntalyzer syntalyzer(lexems, idents, consts);		
 
-	auto idnData = lexilyzer.GetIdns();
-	pFrame->SetVarData(idnData);*/
+		syntalyzer.Analyze();
+
+		errors = syntalyzer.Errors();
+		idents = syntalyzer.GetIdents();
+
+		pFrame->SetBuildData(errors, false);
+	}
 }

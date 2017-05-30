@@ -70,9 +70,9 @@ namespace PkLex
 			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::WS,		PkLexFsmStates::START);
 			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::LG,		PkLexFsmStates::ERR);
 			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::SC,		PkLexFsmStates::ERR);
-			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::MN,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::MN,		PkLexFsmStates::START);
 			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::EQ,		PkLexFsmStates::ERR);
-			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::TR,		PkLexFsmStates::ERR);
+			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::TR,		PkLexFsmStates::START);
 			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::NL,		PkLexFsmStates::START);
 			AddTransition(PkLexFsmStates::TRM,		PkLexFsmEvents::UNK,	PkLexFsmStates::ERR);
 
@@ -151,25 +151,35 @@ namespace PkLex
 					if (prevState == PkLexFsmStates::LEX)
 					{
 						LOG("Found Lexema: " + std::string(lexema.begin(), lexema.end()));
-						if (outLex.Id == 0
-							&& std::find(idents.begin(), idents.end(), lexema) == idents.end())
+						if (outLex.Id == 0) // identifier
 						{
-							PkLang::PkOutIdn ident;
-							ident.Index = nIndex;
-							ident.Name = lexema;
-							ident.Type = PkLang::PkIdnTypes::Undef; // lexema.back() == L':' ? PkLang::PkIdnTypes::Lbl : PkLang::PkIdnTypes::Int; // dirty hack
-							idents.push_back(ident);
+							outLex.Class = PkLang::PkLexemClasses::IDN;
+
+							const auto& idn = std::find(idents.begin(), idents.end(), lexema);
+
+							if (idn == idents.end())
+							{
+								PkLang::PkOutIdn ident;
+								ident.Index = outLex.Index;
+								ident.Name = lexema;
+								ident.Type = PkLang::PkIdnTypes::Undef;
+								idents.push_back(ident);
+							}
+							else
+							{
+								outLex.Index = idn->Index;
+							}
 						}
 					}
 					else if (prevState == PkLexFsmStates::CON)
 					{
-						outLex.Class = PkLang::PkLexemClasses::Const;
+						outLex.Class = PkLang::PkLexemClasses::CON;
 
 						LOG("Found Constant: " + std::string(lexema.begin(), lexema.end()));
 
 						PkLang::PkOutConst outConst;
 						outConst.Value = std::stoi(lexema);
-						outConst.Index = nIndex;
+						outConst.Index = outLex.Index;
 
 						consts[nIndex] = outConst;
 					}
@@ -184,7 +194,7 @@ namespace PkLex
 						}
 						else
 						{
-							outLex.Class = PkLang::PkLexemClasses::Operator;
+							outLex.Class = PkLang::PkLexemClasses::TRM;
 
 							LOG("Found Terminal: " + std::string(lexema.begin(), lexema.end()));
 						}
@@ -200,7 +210,7 @@ namespace PkLex
 						}
 						else
 						{
-							outLex.Class = PkLang::PkLexemClasses::Operator;
+							outLex.Class = PkLang::PkLexemClasses::TRM;
 							LOG("Found Logical: " + std::string(lexema.begin(), lexema.end()));
 						}
 					}

@@ -38,13 +38,13 @@ namespace PkLex
 				m_Type = WS;
 			else if (std::wstring(L"!<>").find(ch) != std::wstring::npos)
 				m_Type = LG;
-			else if (ch == L':')
-				m_Type = SC;
+			/*else if (ch == L':')
+				m_Type = SC;*/
 			else if (ch == L'-')
 				m_Type = MN;
 			else if (ch == L'=')
 				m_Type = EQ;
-			else if (std::wstring(L",^+*/()").find(ch) != std::wstring::npos)
+			else if (std::wstring(L",^+*/():").find(ch) != std::wstring::npos)
 				m_Type = TR;
 			//else if (std::iswpunct(ch))
 				//m_Type = CH;

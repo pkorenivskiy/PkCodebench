@@ -8,21 +8,16 @@ namespace PkLang
 {	
 	enum PkLexemClasses
 	{
-		Keyword,
-		Operator,
-		Variable,
-		Label,
-		Const,
-		Delimiter,
-		WhiteDelimiter,
+		TRM = 1,
+		IDN,
+		CON,
 
-		Unresolves = 900,
 		Unknown = 999
 	};
 
 	enum PkIdnTypes
 	{
-		Int,
+		Int = 1,
 		Lbl,
 		Undef
 	};
@@ -40,45 +35,84 @@ namespace PkLang
 		}
 	};
 
-	static size_t LEXEMINDEX = 1;
+
+
+#define LNG_INT		1
+#define LNG_LABEL	2
+
+#define LNG_FOR		3
+#define LNG_BY		4
+#define LNG_WHILE	5
+#define LNG_DO		6
+
+#define LNG_IF		7
+#define LNG_THEN	8
+#define LNG_GOTO	9
+
+#define LNG_READ	10
+#define LNG_WRITE	11
+
+#define LNG_PLUS	12
+#define LNG_MINUS	13
+#define LNG_MULT	14
+#define LNG_DIV		15
+#define LNG_SQR		16
+
+#define LNG_UMINUS	17
+
+#define LNG_LBR		18
+#define LNG_RBR		19
+
+#define LNG_GR		20
+#define LNG_LS		21
+#define LNG_ASN		22
+#define LNG_NEQ		23
+#define LNG_GREQ	24
+#define LNG_LSEQ	25
+#define LNG_EQ		26
+
+#define LNG_CLN		27
+#define LNG_CMA		28
+
+
 	static const std::vector<PkLexema> LEXEMS =
 	{
-		{ PkLexema{ L"int",		Keyword,	LEXEMINDEX++ } }, //1
-		{ PkLexema{ L"label",	Keyword,	LEXEMINDEX++ } }, //2
+		{ PkLexema{ L"int",		TRM,	LNG_INT } }, //1
+		{ PkLexema{ L"label",	TRM,	LNG_LABEL } }, //2
 
-		{ PkLexema{ L"for",		Keyword,	LEXEMINDEX++ } }, //3
-		{ PkLexema{ L"by",		Keyword,	LEXEMINDEX++ } }, //4
-		{ PkLexema{ L"while",	Keyword,	LEXEMINDEX++ } }, //5
-		{ PkLexema{ L"do",		Keyword,	LEXEMINDEX++ } }, //6
+		{ PkLexema{ L"for",		TRM,	LNG_FOR } }, //3
+		{ PkLexema{ L"by",		TRM,	LNG_BY } }, //4
+		{ PkLexema{ L"while",	TRM,	LNG_WHILE } }, //5
+		{ PkLexema{ L"do",		TRM,	LNG_DO } }, //6
 
-		{ PkLexema{ L"if",		Keyword,	LEXEMINDEX++ } }, //7
-		{ PkLexema{ L"then",	Keyword,	LEXEMINDEX++ } }, //8
-		{ PkLexema{ L"goto",	Keyword,	LEXEMINDEX++ } }, //9
+		{ PkLexema{ L"if",		TRM,	LNG_IF } }, //7
+		{ PkLexema{ L"then",	TRM,	LNG_THEN } }, //8
+		{ PkLexema{ L"goto",	TRM,	LNG_GOTO } }, //9
 
-		{ PkLexema{ L"read",	Keyword,	LEXEMINDEX++ } }, //10
-		{ PkLexema{ L"write",	Keyword,	LEXEMINDEX++ } }, //11
+		{ PkLexema{ L"read",	TRM,	LNG_READ } }, //10
+		{ PkLexema{ L"write",	TRM,	LNG_WRITE } }, //11
 
-		{ PkLexema{ L"+",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"-",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"*",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"/",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"^",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L"+",		TRM,	LNG_PLUS } },
+		{ PkLexema{ L"-",		TRM,	LNG_MINUS } },
+		{ PkLexema{ L"*",		TRM,	LNG_MULT } },
+		{ PkLexema{ L"/",		TRM,	LNG_DIV } },
+		{ PkLexema{ L"^",		TRM,	LNG_SQR } },
 
-		{ PkLexema{ L"-",		Operator,	LEXEMINDEX++ } }, //unary minus
+		{ PkLexema{ L"-",		TRM,	LNG_UMINUS } }, //unary minus
 
-		{ PkLexema{ L"(",		Delimiter,	LEXEMINDEX++ } },
-		{ PkLexema{ L")",		Delimiter,	LEXEMINDEX++ } },
+		{ PkLexema{ L"(",		TRM,	LNG_LBR } },
+		{ PkLexema{ L")",		TRM,	LNG_RBR } },
 
-		{ PkLexema{ L">",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"<",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"=",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"!=",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L">=",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"<=",		Operator,	LEXEMINDEX++ } },
-		{ PkLexema{ L"==",		Operator,	LEXEMINDEX++ } },
+		{ PkLexema{ L">",		TRM,	LNG_GR } },
+		{ PkLexema{ L"<",		TRM,	LNG_LS } },
+		{ PkLexema{ L"=",		TRM,	LNG_ASN } },
+		{ PkLexema{ L"!=",		TRM,	LNG_NEQ } },
+		{ PkLexema{ L">=",		TRM,	LNG_GREQ } },
+		{ PkLexema{ L"<=",		TRM,	LNG_LSEQ } },
+		{ PkLexema{ L"==",		TRM,	LNG_EQ } },
 
-		{ PkLexema{ L":",		Keyword,	LEXEMINDEX++ } },
-		{ PkLexema{ L",",		Keyword,	LEXEMINDEX++ } }
+		{ PkLexema{ L":",		TRM,	LNG_CLN } },
+		{ PkLexema{ L",",		TRM,	LNG_CMA } }
 	};
 
 	struct PkOutLexema

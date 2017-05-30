@@ -60,8 +60,6 @@ namespace PkFSM
 
 			auto it = std::find(m_vEvents.begin(), m_vEvents.end(), event);
 			
-			/*if (it != m_vEvents.end())
-				throw PkStateMachineException("Event must be unique.");*/
 			if (it == m_vEvents.end())
 				m_vEvents.push_back(event);
 
@@ -83,12 +81,10 @@ namespace PkFSM
 
 			m_Functor(m_CurrentState, event, nextState);
 
-			//if (nextState != m_CurrentState)
-			{
-				char lpszMsg[256];
-				sprintf_s(lpszMsg, "Change state from %d to %d", (int)m_CurrentState, (int)nextState);
-				LOG(lpszMsg);				
-			}
+			char lpszMsg[256];
+			sprintf_s(lpszMsg, "Change state from %d to %d", (int)m_CurrentState, (int)nextState);
+			//LOG(lpszMsg);				
+			
 			m_PrevState = m_CurrentState;
 			m_CurrentState = nextState;
 

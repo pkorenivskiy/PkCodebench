@@ -8,35 +8,62 @@ bool PkDeclAnalyzer::Analyze(TvPkOutLexems& lexems, TvPkOutIdnts& idents, TmPkOu
 {
 	bool res = false;
 
+	size_t nLine = lexems.begin()->Line;
+
 	if (lexems.size() < 2)
 	{
-		errors[lexems.begin()->Line].push_back(L"Missed identifiers at line " + std::to_wstring(lexems.begin()->Line));
+		addError(errors, L"Missed identifiers.", nLine);
 		return res;
 	}
 
-	PkIdnTypes identType = PkIdnTypes::Undef;
-	if (lexems[0].Id == 0)
+	PkIdnTypes identType = PkIdnTypes::Int;
+	if (lexems[0].Id == LNG_INT)
 		identType = PkIdnTypes::Int;
-	else if (lexems[0].Id == PkIdnTypes::Lbl)
+	else if (lexems[0].Id == LNG_LABEL)
 		identType = PkIdnTypes::Lbl;
 	else
 	{
-		errors[lexems.begin()->Line].push_back(L"Syntax error at line " + std::to_wstring(lexems.begin()->Line));
+		addError(errors, L"Syntax error.", nLine);
 		return res;
 	}
 
-	for (auto& ident = lexems.begin() + 1; ident != lexems.end(); ident++)
+	auto expClass = PkLexemClasses::IDN;
+
+	for (auto& ident = lexems.begin() + m_nIndex + 1; ident != lexems.end(); ident++)
 	{
-		if (ident->Class != PkLexemClasses::Variable)
+		if (ident->Class != expClass)
 		{
-			errors[lexems.begin()->Line].push_back(L"Syntax error at line " + std::to_wstring(lexems.begin()->Line));
+			addError(errors, L"Syntax error.", nLine);
 			return res;
 		}
 		
-		auto& itId = std::find(idents.begin(), idents.end(), ident->Index);
+		if (expClass == PkLexemClasses::IDN)
+		{
+			if (ident->Class == PkLexemClasses::IDN)
+			{
+				auto& itId = std::find(idents.begin(), idents.end(), ident->Index);
 
-		if (itId != idents.end())
-			itId->Type = identType;
+				if (itId != idents.end())
+					itId->Type = identType;
+				else
+					addError(errors, L"Unknown identifier.", nLine);
+			}
+			else
+			{
+				addError(errors, L"Identifier expected.", nLine);
+				return res;
+			}
+		}
+		else
+		{
+			if (ident->Id != LNG_CMA)
+			{
+				addError(errors, L"Comma expected.", nLine);
+				return res;
+			}
+		}
+
+		expClass = expClass == PkLexemClasses::IDN ? PkLexemClasses::TRM : PkLexemClasses::IDN;
 	}
 
 	res = true;

@@ -2,17 +2,6 @@
 
 #include "../PkLangDefs/PkLang.h"
 
-enum class SynStates
-{
-	Start,
-	Var,
-	Const,
-	LfBr,
-	RgBr,
-
-	End
-};
-
 class PkBaseAnalyzer abstract
 {
 public:
@@ -27,6 +16,9 @@ public:
 public:
 	virtual bool Analyze(PkLang::TvPkOutLexems& lexems, PkLang::TvPkOutIdnts& idents, PkLang::TmPkOutConsts& consts, PkLang::TmErrors& errors) = 0;
 
+protected:
+	virtual void addError(PkLang::TmErrors& errors, const std::wstring& msg, size_t line, const std::wstring& msg1 = L"");
+	PkLang::PkIdnTypes getIdnType(const PkLang::TvPkOutIdnts& idents, const size_t index);
 protected:
 	size_t m_nIndex;
 };
