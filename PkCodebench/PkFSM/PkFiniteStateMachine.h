@@ -106,14 +106,11 @@ namespace PkFSM
 
 	private:
 		typedef std::vector<StateType> VofStates;
-		//typedef typename VofStates::const_iterator VofStatesCIt;
 
 		typedef std::vector<EventType> VofEvents;
-		//typedef typename VofEvents::const_iterator VofEventsCIt;
 
 		typedef std::map<StateType, StateType> MapStateToState;
 		typedef std::map<EventType, MapStateToState> TableTransition;
-		//typedef typename TableTransition::const_iterator TableTransitionCIt;
 
 	private:
 		StateType m_CurrentState;

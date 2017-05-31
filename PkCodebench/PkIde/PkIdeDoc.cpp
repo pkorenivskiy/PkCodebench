@@ -247,6 +247,8 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 		{
 			Builder builder(lexems);
 			builder.Build();
+
+			pFrame->SetPolizData(builder.GetPoliz());
 		}
 	}
 }

@@ -48,7 +48,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (!m_wndOutputBuild.Create(dwStyle, rectDummy, &m_wndTabs, 2) ||
 		!m_wndOutLexems.Create(dwStyle, rectDummy, &m_wndTabs, 3) ||
 		!m_wndOutErrors.Create(dwStyle, rectDummy, &m_wndTabs, 4)/* ||
-		!m_wndOutputFind.Create(dwStyle, rectDummy, &m_wndTabs, 4)*/)
+		!m_wndOutputFind.Create(dwStyle, rectDummy, &m_wndTabs, 5)*/)
 	{
 		TRACE0("Failed to create output windows\n");
 		return -1;      // fail to create
@@ -59,6 +59,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndOutTrm.Create(dwOutStyle, rectDummy, &m_wndTabs, IDC_OUTTRMTBL);
 	m_wndOutCon.Create(dwOutStyle, rectDummy, &m_wndTabs, IDC_OUTTRMTBL);
 	m_wndOutVar.Create(dwOutStyle, rectDummy, &m_wndTabs, IDC_OUTTRMTBL);
+	m_wndPoliz.Create(dwOutStyle, rectDummy, &m_wndTabs, IDC_OUTTRMTBL);
 
 	UpdateFonts();
 
@@ -97,6 +98,7 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ASSERT(bNameValid);
 	m_wndTabs.AddTab(&m_wndOutErrors, strTabName, (UINT)4);
 
+	m_wndTabs.AddTab(&m_wndPoliz, L"Poliz", (UINT)5);
 	// Fill output tabs with some dummy text (nothing magic here)
 	FillBuildWindow();
 	/*FillDebugWindow();
@@ -189,6 +191,11 @@ void COutputWnd::FillOutTable()
 	m_wndOutVar.SetColumnWidth(2, 50);
 
 	m_wndOutVar.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
+
+	m_wndPoliz.InsertColumn(0, L"Out");
+	m_wndPoliz.SetColumnWidth(0, 60);
+
+	m_wndPoliz.SendMessage(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 }
 
 void COutputWnd::SetBuildData(const std::vector<std::wstring>& buildData, bool isClear)
@@ -297,6 +304,18 @@ void COutputWnd::SetVarData(const PkLang::TvPkOutIdnts& data, bool isClear)
 
 		_itow_s(it.Type, lptszBuf, 10, 10);
 		m_wndOutVar.AddData(nRow++, 2, lptszBuf);
+	}
+}
+
+
+void COutputWnd::SetPolizData(const PkLang::TvPkOutLexems& data, bool isClear /*= true*/)
+{
+	m_wndPoliz.Clear();
+
+	int nRow = 0;
+	for (auto it : data)
+	{
+		m_wndPoliz.AddData(nRow, 0, it.Name.c_str());
 	}
 }
 

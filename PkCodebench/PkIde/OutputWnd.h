@@ -51,6 +51,7 @@ protected:
 	COutTable m_wndOutTrm;
 	COutTable m_wndOutCon;
 	COutTable m_wndOutVar;
+	COutTable m_wndPoliz;
 
 protected:
 	void FillBuildWindow();
@@ -74,6 +75,7 @@ public:
 	void SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear = true);
 	void SetConstData(const PkLang::TmPkOutConsts& data, bool isClear = true);
 	void SetVarData(const PkLang::TvPkOutIdnts& data, bool isClear = true);	
+	void SetPolizData(const PkLang::TvPkOutLexems& data, bool isClear = true);
 
 	COutputList* GetBuildOutWnd() { return &m_wndOutputBuild; }
 

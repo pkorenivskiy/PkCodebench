@@ -52,6 +52,7 @@ public:
 	void SetTrmData(const PkLang::TmPkOutLexems& data, bool isClear = true) { m_wndOutput.SetTrmData(data, isClear); };
 	void SetConstData(const PkLang::TmPkOutConsts& data, bool isClear = true) { m_wndOutput.SetConstData(data, isClear); };
 	void SetVarData(const PkLang::TvPkOutIdnts& data, bool isClear = true) { m_wndOutput.SetVarData(data, isClear); };
+	void SetPolizData(const PkLang::TvPkOutLexems& data, bool isClear = true) { m_wndOutput.SetPolizData(data, isClear); };
 
 	COutputList* GetBuildOutWnd() { return m_wndOutput.GetBuildOutWnd(); }
 

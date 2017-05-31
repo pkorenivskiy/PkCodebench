@@ -13,14 +13,15 @@ public:
 
 public:
 	bool Build();
+	const PkLang::TvPkOutLexems GetPoliz() const { return m_poliz; }
 
 private:
-	const size_t getPriority(const std::wstring& lexem) const;
+	const size_t getPriority(const PkLang::PkOutLexema& lexem) const;
 
 private:
 	PkLang::TmPkOutLexems m_lexems;
 
-	std::vector<std::wstring> m_poliz;
-	std::stack<std::wstring> m_stack;
+	PkLang::TvPkOutLexems m_poliz;
+	std::stack<PkLang::PkOutLexema> m_stack;
 };
 

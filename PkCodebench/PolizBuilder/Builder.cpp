@@ -28,25 +28,20 @@ bool Builder::Build()
 		{
 			switch (itLex.Class)
 			{
-			case PkLexemClasses::CON: m_poliz.push_back(itLex.Name);
+			case PkLexemClasses::CON: m_poliz.push_back(itLex);
 				break;
-			case PkLexemClasses::IDN: m_poliz.push_back(itLex.Name);
+			case PkLexemClasses::IDN: m_poliz.push_back(itLex);
 				break;
 			case PkLexemClasses::TRM: 
 			{
-				if (m_stack.empty())
+				while (m_stack.empty() == false && getPriority(m_stack.top()) >= getPriority(itLex))
 				{
-					m_stack.push(itLex.Name);
-				}
-				else
-				{
-					while (m_stack.empty() == false && getPriority(m_stack.top()) >= getPriority(itLex.Name))
-					{
+					if (m_stack.top().Id != LNG_LBR)
 						m_poliz.push_back(m_stack.top());
-						m_stack.pop();
-					}
-					m_stack.push(itLex.Name);
-				}				
+					m_stack.pop();
+				}
+				if (itLex.Id != LNG_RBR)
+					m_stack.push(itLex);
 			}
 			break;
 			default:
@@ -63,9 +58,9 @@ bool Builder::Build()
 	return res;
 }
 
-const size_t Builder::getPriority(const std::wstring& lexem) const
+const size_t Builder::getPriority(const PkLang::PkOutLexema& lexem) const
 {
-	const auto& it = PRIORITY.find(lexem);
+	const auto& it = PRIORITY.find(lexem.Name);
 	if (it != PRIORITY.end())
 		return it->second;
 
