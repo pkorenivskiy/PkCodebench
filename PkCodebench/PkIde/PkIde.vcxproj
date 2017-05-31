@@ -96,7 +96,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>$(OutputPath)Syntalyzer.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(OutputPath)Syntalyzer.lib;$(OutputPath)PolizBuilder.lib;</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

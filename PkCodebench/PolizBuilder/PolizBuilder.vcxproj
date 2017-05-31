@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A871C0A4-3D56-4EB7-8455-5AAB9739AF54}</ProjectGuid>
+    <ProjectGuid>{CB281C45-6BC5-4C51-ACE4-2E0FF84014D4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Syntalyzer</RootNamespace>
+    <RootNamespace>PolizBuilder</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,12 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="PkSyntalyzer.h" />
+    <ClInclude Include="Builder.h" />
+    <ClInclude Include="PkOutPoliz.h" />
+    <ClInclude Include="Priorities.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PkSyntalyzer.cpp" />
+    <ClCompile Include="Builder.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

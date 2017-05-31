@@ -21,6 +21,7 @@
 #include "PkLogger.h"
 
 #include "../Syntalyzer/PkSyntalyzer.h"
+#include "../PolizBuilder/Builder.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -241,5 +242,11 @@ void CPkIdeDoc::OnBuildLexicalanalyze()
 		idents = syntalyzer.GetIdents();
 
 		pFrame->SetBuildData(errors, false);
+
+		if (errors.empty())
+		{
+			Builder builder(lexems);
+			builder.Build();
+		}
 	}
 }

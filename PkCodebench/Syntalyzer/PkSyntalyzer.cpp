@@ -4,10 +4,6 @@
 #include <memory>
 #include <string>
 
-#include "PkBaseAnalyzer.h"
-#include "PkDeclAnalyzer.h"
-#include "PkExprAnalyzer.h"
-
 using namespace PkLang;
 
 PkSyntalyzer::PkSyntalyzer(const TmPkOutLexems& lexems, const TvPkOutIdnts& idents, const TmPkOutConsts& consts)
